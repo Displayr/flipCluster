@@ -26,7 +26,8 @@ name of a variable in \code{data}. It may not be an expression.}
 \item{missing}{How missing data is to be treated in the regression. Options:
 \code{"Error if missing data"},
 \code{"Exclude cases with missing data"},
-\code{"Imputation (replace missing values with estimates)"}.}
+\code{"Assign partial data to clusters"}. This is the default.
+\code{"Imputation"}. This is the default.}
 
 \item{iter.max}{The number of iterations of the algorithm to run.}
 

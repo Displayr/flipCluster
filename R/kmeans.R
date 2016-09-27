@@ -69,6 +69,7 @@ KMeans <- function(data = NULL,
     ##### Reading in the data and doing some basic tidying        ######
     ####################################################################
     has.subset <- !is.null(subset)
+    partial <- missing == "Assign partial data to clusters"
     if (has.subset)
     {
         subset <- eval(substitute(subset), data, parent.frame())
@@ -77,7 +78,7 @@ KMeans <- function(data = NULL,
             attr(subset, "description") <- subset.description
         if (length(subset) > 1 & length(subset) != nrow(data))
             stop("'subset' and 'data' are required to have the same number of observations. They do not.")
-        if (missing = "Assign partial data to clusters")
+        if (partial)
         {
             subset <- CleanSubset(subset, n.total)
             n.subset <- attr(subset, "n.subset")
@@ -91,7 +92,7 @@ KMeans <- function(data = NULL,
         weights <- eval(substitute(weights), data, parent.frame())
         if (length(weights) != nrow(data))
             stop("'weights' and 'data' are required to have the same number of observations. They do not.")
-        if (missing = "Assign partial data to clusters")
+        if (partial)
             original.weights <- weights <- CleanWeights(weights)
     }
     row.names <- rownames(data)
@@ -135,7 +136,7 @@ KMeans <- function(data = NULL,
     result$weights <- unfiltered.weights
     result$model <- data
     result$cluster <- predict(model$cluster, data)
-    if (partial <- missing == "Assign partial data to clusters")
+    if (partial)
         n <- sum(original.subset)
     else
         result$cluster[!subset] <- model$cluster # This will often do nothing.
