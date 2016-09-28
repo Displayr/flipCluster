@@ -84,6 +84,7 @@ KMeans <- function(data = NULL,
             n.subset <- attr(subset, "n.subset")
             original.subset <- subset
         }
+    }
     weighted <- !is.null(weights)
     if(weighted)
     {
@@ -103,7 +104,7 @@ KMeans <- function(data = NULL,
     data <- AsNumeric(data, binary)
     # Treatment of missing values.
     input.formula <- as.formula(paste0("~", paste(names(data), collapse = "+")))
-    processed.data <- EstimationData(input.formula, data, subset, weights, missing,seed = seed)
+    processed.data <- EstimationData(input.formula, data, subset, weights, missing, seed = seed)
     unfiltered.weights <- processed.data$unfiltered.weights
     .estimation.data <- processed.data$estimation.data
     n <- nrow(.estimation.data)
@@ -128,7 +129,8 @@ KMeans <- function(data = NULL,
     ##### Saving results, parameters, and tidying up               #####
     ####################################################################
     # Setting the class.
-    class(result <- list()) <- "KMeans"
+    result <- list()
+    class(result) <- "KMeans"
     # Saving data - generally applicable.
     if (missing == "Imputation (replace missing values with estimates)")
         data <- processed.data$data
@@ -157,8 +159,6 @@ KMeans <- function(data = NULL,
     ess <- tss - rss
     result$omega.squared = ess/tss
     result$calinski.harabasz = (ess/(n.clusters - 1)/(rss/(n - n.clusters)))
-result}
-
     # Saving descriptive information.
     result$sample.description <- processed.data$description
     result$n.observations <- n
