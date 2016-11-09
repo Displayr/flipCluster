@@ -60,7 +60,7 @@ KMeans <- function(data = NULL,
     ####################################################################
     ##### Reading in the data and doing some basic tidying        ######
     ####################################################################
-    has.subset <- !is.null(subset)
+    has.subset <- !is.null(subset) & length(subset) != 1
     partial <- missing == "Use partial data"
     n.total <- nrow(data)
     if (has.subset)

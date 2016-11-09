@@ -97,6 +97,14 @@ suppressWarnings(KMeans(data = dat, show.labels = TRUE, centers = 3))
 # Subset
 sb <- dat$Q050__1 != "Very Important 5"
 suppressWarnings(KMeans(data = dat, subset = sb, show.labels = TRUE, centers = 3))
+suppressWarnings(KMeans(data = dat, subset = TRUE))#, show.labels = TRUE, centers = 3))
+attach(dat)
+kmeans <- KMeans(data.frame(Q050__1, Q050__2, Q050__3, Q050__4, Q050__5, Q050__6, Q050__7, Q050__8, Q050__9, Q050__10, Q050__11, Q050__12, Q050__13, Q050__14, Q050__15, Q050__16, Q050__17, Q050__18, Q050__19, Q050__20, Q050__21, Q050__22, Q050__23, Q050__24, Q050__25),
+                 centers = 2,
+                 # algorithm = formAlgorithm,
+                 #   output = formOutput,
+                 subset = TRUE)#,
+#
 
 # weights
 set.seed(1)
