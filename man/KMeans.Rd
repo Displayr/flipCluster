@@ -6,8 +6,8 @@
 \usage{
 KMeans(data = NULL, centers = 2, subset = NULL, weights = NULL,
   missing = "Use partial data", iter.max = 100, n.starts = 10,
-  algorithm = "Batch", output = "Means", w.size = 10000, seed = 12321,
-  binary = FALSE, show.labels = FALSE)
+  algorithm = "Batch", output = "Means", seed = 12321, binary = FALSE,
+  show.labels = FALSE)
 }
 \arguments{
 \item{data}{A \code{\link{data.frame}}.}

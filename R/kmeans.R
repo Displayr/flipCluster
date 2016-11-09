@@ -36,13 +36,13 @@
 #' MacQueen, J. (1967) Some methods for classification and analysis of multivariate observations. In Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, eds L. M. Le Cam & J. Neyman, 1, pp. 281–297. Berkeley, CA: University of California Press.
 #
 #' @importFrom flipData CleanSubset CleanWeights EstimationData
-#' @importFrom flipFormat Labels ExtractCommonPrefix Names
+#' @importFrom flipFormat Labels ExtractCommonPrefix Names FormatAsPercent
 #' @importFrom flipTransformations CreatingFactorDependentVariableIfNecessary AsNumeric Factor AdjustDataToReflectWeights
 #' @importFrom flipU OutcomeName
 #' @importFrom stats aggregate complete.cases as.formula kmeans
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
-#' @importFrom flipStatistics Mean MeanByGroup
+#' @importFrom flipStatistics Mean MeanByGroup Frequency
 #' @export
 KMeans <- function(data = NULL,
                    centers = 2,
@@ -148,9 +148,6 @@ KMeans <- function(data = NULL,
     else
         variable.labels <- Names(data)
     colnames(centers) <- variable.labels
-    rownames(centers) <- paste("Cluster", 1:n.clusters)
-    if (output == "Means table")
-        return(centers)
 #    rss <- ResidualSumOfSquares(x, cluster, weights)
 #    tss <- TotalSumOfSquares(x, weights)
     result <- list(#cluster = rep(NA, nrow(data)),
@@ -178,6 +175,11 @@ KMeans <- function(data = NULL,
     analysis.subset <- if(partial & has.subset) original.subset else subset
     weights.a <- weights[analysis.subset]
     data.a <- data[analysis.subset, , drop = FALSE]
+    result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
+    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(prop.table(sizes), 0))
+    result$centers <- centers
+    if (output == "Means table")
+        return(centers)
     #clusters.a <- result$cluster[analysis.subset]
     if (missing == "Assign partial data to clusters" | weighted)
         result$centers <- MeanByGroup(data.a, cluster.a, weights.a)
@@ -222,8 +224,10 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
     if (x$show.labels)
         for (i in 1:ncol(variables))
             attr(variables[, i], "label") <- x$variable.labels[i]
+    cluster <- x$cluster[subset]
+    levels(cluster) <- rownames(x$centers)
     table <- MultipleMeans(variables,
-                x$cluster[subset],
+                cluster,
                 weights = x$weights[subset],
                 show.labels = x$show.labels,
                 title = x$cluster.label,
