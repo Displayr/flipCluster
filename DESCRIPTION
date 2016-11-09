@@ -1,12 +1,22 @@
 Package: flipCluster
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Cluster analysis
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Tim Bock <tim.bock@numbers.net.au>
+Maintainer: Tim Bock <tim.bock@numbers.net.au>
+Description: Cluster analysis and related routines.
+License: GPL-3
 LazyData: TRUE
 Suggests:
     testthat
+Imports:
+    e1071,
+    flipAnalysisOfVariance,
+    flipData,
+    flipFormat,
+    flipRegression,
+    flipStatistics,
+    flipTransformations,
+    flipU,
+    stats
 RoxygenNote: 5.0.1

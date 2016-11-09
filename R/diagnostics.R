@@ -2,9 +2,10 @@
 #'
 #' Statistic for evaluating the fit of a cluster analysis (higher is better).
 #' KMeans Cluster Analysis.
-#' @param data A matrix containing the data.
+#' @param x A matrix containing the data.
 #' @param centers The cluster centers.
 #' @param clusters Cluster membershis by case
+#' @importFrom stats var
 #' @export
 
 CalinskiHarabasz <- function(x, centers, clusters)
@@ -18,7 +19,11 @@ CalinskiHarabasz <- function(x, centers, clusters)
   list(T=T,B=B,W=W,Calinski.Harabasz=CH)
 }
 
-
+#' AdjustedRand
+#'
+#' Checks the similarity of two classifications: 1 indicates perfect, 0 indicates as if random.
+#' @param trial.classification One classification.
+#' @param test.classification Another classification.
 #' @importFrom e1071  classAgreement
 #' @export
 AdjustedRand <- function(trial.classification,test.classification)
@@ -26,8 +31,14 @@ AdjustedRand <- function(trial.classification,test.classification)
     classAgreement(table(trial.classification,test.classification))$crand
 }
 
-
-
+#' ExternalIndices
+#'
+#' Measures of classification quality.
+#' @param k Number of clusters.
+#' @param Classification1 One classification.
+#' @param Classification2 Another classification.
+#' @importFrom e1071  classAgreement
+#' @export
 ExternalIndices <- function(k, Classification1, Classification2)
 {
     n <- length(Classification1)
@@ -44,5 +55,5 @@ ExternalIndices <- function(k, Classification1, Classification2)
     FM <- Numerator/Denominator
     #Jaccard
     jaccard = (Z - n) / (sum(nDotj^2) + sum(niDot^2) - Z - n)
-    list(Fowlkes.Mallows = FM, Jaccard = jaccard, adjusted.rand = adjusted.rand(Classification1, Classification2))
+    list(Fowlkes.Mallows = FM, Jaccard = jaccard, adjusted.rand = AdjustedRand(Classification1, Classification2))
 }

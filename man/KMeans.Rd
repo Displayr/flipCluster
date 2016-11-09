@@ -5,14 +5,14 @@
 \title{\code{KMeans}}
 \usage{
 KMeans(data = NULL, centers = 2, subset = NULL, weights = NULL,
-  missing = "Exclude cases with missing data", iter.max = 1000,
-  nstart = 10, algorithm = "Hartigan-Wong", output = "Means",
-  w.size = 10000, seed = 12321, binary = FALSE, show.labels = FALSE)
+  missing = "Use partial data", iter.max = 100, n.starts = 10,
+  algorithm = "Batch", output = "Means", w.size = 10000, seed = 12321,
+  binary = FALSE, show.labels = FALSE)
 }
 \arguments{
 \item{data}{A \code{\link{data.frame}}.}
 
-\item{centers}{Either the number of clsters (e.g., 2), or a set of initial cluster
+\item{centers}{Either the number of clusters (e.g., 2), or a set of initial cluster
 centers. Where the number of clusters is specified, or the algorithm is 'Bagging',
 a random selection of rows of data is chosen  as the initial start points.}
 
@@ -26,34 +26,25 @@ name of a variable in \code{data}. It may not be an expression.}
 \item{missing}{How missing data is to be treated in the regression. Options:
 \code{"Error if missing data"},
 \code{"Exclude cases with missing data"},
-\code{"Assign partial data to clusters"}. This is the default.
-\code{"Imputation"}. This is the default.}
+\code{"Use partial data"}. This is the default.
+\code{"Imputation (replace missing values with estimates)"}.}
 
 \item{iter.max}{The number of iterations of the algorithm to run.}
 
-\item{nstart}{The number of times the algorithm should be run, each time with a different
-number of start points..}
+\item{n.starts}{The number of times the algorithm should be run, each time with a different
+number of start points.}
 
-\item{algorithm}{One of \code{"Hartigan-Wong"}, \code{"Forgy"}, \code{"Lloyd"}, \code{"MacQueen"},or
+\item{algorithm}{One of \code{"Hartigan-Wong"}, \code{"Forgy"}, \code{"Lloyd"}, \code{"MacQueen"},\code{"Batch"}, or
 \code{"Bagging"}.}
 
-\item{output}{One of \code{"Means"}, \code{"Confusion matrix"}, or \code{"Detail"}.}
-
-\item{w.size}{If the data is weighted, this is the size of the bootstrap sample that is created by
-selection with replacement in proportion to the weights.}
+\item{output}{The defaults is \code{"Means"}. A table that is better for exporting is \code{"Means table"}.}
 
 \item{seed}{The random number seed used in imputation.}
 
+\item{binary}{Makes categorical variables into indicator variables (otherwise their values are used).}
+
 \item{show.labels}{Shows the variable labels, as opposed to the labels, in the outputs, where a
 variables label is an attribute (e.g., attr(foo, "label")).}
-
-\item{formula}{A formula of the form \code{groups ~ x1 + x2 + ...}
-That is, the response is the grouping factor and the right hand side
-specifies the (non-factor) discriminators, and any transformations, interactions,
-or other non-additive operators will be ignored.
-transformations nor}
-
-\item{...}{Additional arguments to be applied to \code{bclust}.}
 }
 \description{
 KMeans Cluster Analysis.

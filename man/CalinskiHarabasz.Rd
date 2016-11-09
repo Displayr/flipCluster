@@ -7,11 +7,11 @@
 CalinskiHarabasz(x, centers, clusters)
 }
 \arguments{
+\item{x}{A matrix containing the data.}
+
 \item{centers}{The cluster centers.}
 
 \item{clusters}{Cluster membershis by case}
-
-\item{data}{A matrix containing the data.}
 }
 \description{
 Statistic for evaluating the fit of a cluster analysis (higher is better).

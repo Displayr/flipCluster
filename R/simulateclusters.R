@@ -8,8 +8,7 @@
 #' @param j The number of variables.
 #' @param n The number of observations.
 #' @references Glenn W. Milligan (1985). An algorithm for generating artificial data sets which contain distinct nonoverlapping clusters is presented. The algorithm is useful for generating test data sets for Monte Carlo validation research conducted on clustering methods or statistics. The algorithm generates data sets which contain either 1, 2, 3, 4, or 5 clusters. By default, the data are embedded in either a 4, 6, or 8 dimensional space. Three different patterns for assigning the points to the clusters are provided. One pattern assigns the points equally to the clusters while the remaining two schemes produce clusters of unequal sizes. Finally, a number of methods for introducing error in the data have been incorporated in the algorithm. Psychometrica. February.
-#' @export
-
+#' @importFrom stats runif
 #' @export
 CreateSimulatedClusters <- function(DENSIT, n.clusters, j, n)
 {
@@ -81,7 +80,7 @@ CreateSimulatedClusters <- function(DENSIT, n.clusters, j, n)
 }
 
 
-
+#' @importFrom stats pnorm rnorm
 trnorm <- function(n, mean=0, sd=1, lower = -Inf, upper = Inf)
 {   # Generate n draws from a truncated normal distribution
     multiplier <- 1.01/(pnorm(upper,mean,sd) - pnorm(lower,mean,sd))
@@ -113,6 +112,7 @@ trnorm <- function(n, mean=0, sd=1, lower = -Inf, upper = Inf)
 
 
 # Add noise to the simuated data according to the reliability formula in Tim's thesis
+#' @importFrom stats rnorm sd
 SimulateReliability <- function(x,a = 1)
 {
     error <- matrix(rnorm(prod(dim(x))),ncol = ncol(x))
