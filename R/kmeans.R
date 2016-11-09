@@ -226,7 +226,7 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
                 x$cluster[subset],
                 weights = x$weights[subset],
                 show.labels = x$show.labels,
-                title = "K-Means Cluster Analysis",
+                title = x$cluster.label,
                 subtitle = paste0("Variance explained:", FormatAsPercent(x$variance.explained), "; Calinski-Harabasz: ", FormatAsReal(x$calinski.harabasz, 2)),
                 footer = x$sample.description)
     print(table)
