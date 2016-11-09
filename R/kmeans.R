@@ -176,7 +176,8 @@ KMeans <- function(data = NULL,
     weights.a <- weights[analysis.subset]
     data.a <- data[analysis.subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
-    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(prop.table(sizes), 0))
+    sizes <- as.numeric(prop.table(sizes))
+    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(sizes, 0))
     result$centers <- centers
     if (output == "Means table")
         return(centers)
