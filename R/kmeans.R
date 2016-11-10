@@ -148,14 +148,9 @@ KMeans <- function(data = NULL,
     else
         variable.labels <- Names(data)
     colnames(centers) <- variable.labels
-#    rss <- ResidualSumOfSquares(x, cluster, weights)
-#    tss <- TotalSumOfSquares(x, weights)
     result <- list(#cluster = rep(NA, nrow(data)),
                    centers = t(centers),
                    cluster.label = cluster.label)#,
- #                  rss = rss,
-  #                 tss = tss,
-   #                variance.explained = 1 - rss / tss)
     class(result) <- "KMeans"
 
     # Saving data - generally applicable.
