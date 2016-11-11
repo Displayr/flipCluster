@@ -1,14 +1,18 @@
 context("k-means")
 
 
-set.seed(121)
 for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging"))
     for (dens in 1:3)
         for (n in 200)
 test_that(paste("K-means algorithm", alg, " density =", dens),
           {
+set.seed(121)
+              #alg = "Hartigan-Wong"
+              #dens = 3
               test.data <- CreateSimulatedClusters(dens, 4, 10, n)
-              z <- KMeans(as.data.frame(test.data$x), 4, algorithm = alg)
+              z <- suppressWarnings(KMeans(as.data.frame(test.data$x), 4, n.starts = 10, algorithm = alg, seed = 1112))
+              #AdjustedRand(test.data$cluster, z$cluster)
+
               expect_equal(AdjustedRand(test.data$cluster, z$cluster), 1)
           })
 
@@ -98,13 +102,6 @@ suppressWarnings(KMeans(data = dat, show.labels = TRUE, centers = 3))
 sb <- dat$Q050__1 != "Very Important 5"
 suppressWarnings(KMeans(data = dat, subset = sb, show.labels = TRUE, centers = 3))
 suppressWarnings(KMeans(data = dat, subset = TRUE))#, show.labels = TRUE, centers = 3))
-attach(dat)
-kmeans <- KMeans(data.frame(Q050__1, Q050__2, Q050__3, Q050__4, Q050__5, Q050__6, Q050__7, Q050__8, Q050__9, Q050__10, Q050__11, Q050__12, Q050__13, Q050__14, Q050__15, Q050__16, Q050__17, Q050__18, Q050__19, Q050__20, Q050__21, Q050__22, Q050__23, Q050__24, Q050__25),
-                 centers = 2,
-                 # algorithm = formAlgorithm,
-                 #   output = formOutput,
-                 subset = TRUE)#,
-#
 
 # weights
 set.seed(1)

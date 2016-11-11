@@ -53,13 +53,14 @@ KMeans <- function(data = NULL,
                    n.starts = 10,
                    algorithm = "Batch",
                    output = "Means",
-                   seed = 12321,
+                   seed = 1223,
                    binary = FALSE,
                    show.labels = FALSE)
 {
     ####################################################################
     ##### Reading in the data and doing some basic tidying        ######
     ####################################################################
+    set.seed(seed)
     has.subset <- !is.null(subset) & length(subset) != 1
     partial <- missing == "Use partial data"
     n.total <- nrow(data)
@@ -172,11 +173,10 @@ KMeans <- function(data = NULL,
     data.a <- data[analysis.subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
     sizes <- as.numeric(prop.table(sizes))
-    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(sizes, 0))
+    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(sizes, 2))
     result$centers <- centers
     if (output == "Means table")
         return(centers)
-    #clusters.a <- result$cluster[analysis.subset]
     if (missing == "Assign partial data to clusters" | weighted)
         result$centers <- MeanByGroup(data.a, cluster.a, weights.a)
     if (weighted)
