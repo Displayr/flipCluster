@@ -28,3 +28,18 @@ for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging", "Batch")
 
                 expect_equal(AdjustedRand(test.data$cluster, predict(z)), 1)
           })
+
+
+test_that("Missing data",
+        {
+                data("consultant", package = "flipExampleData")
+                nms <- names(consultant)
+                dat <- consultant[, match("Q050__1", nms):match("Q050__25", nms) ]
+                attach(dat)
+                zd = data.frame(Q050__15, Q050__1, Q050__5, Q050__13, Q050__14, Q050__3, Q050__17, Q050__18, Q050__19, Q050__20, Q050__24)
+                z <- suppressWarnings(KMeans(zd, 2))
+                expect_equal(sum(is.na(predict(z))), 4)
+                detach(dat)
+        })
+
+

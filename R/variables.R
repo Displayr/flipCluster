@@ -27,7 +27,9 @@ predict.KMeans <- function(object, newdata = object$model, ...)
         diff[is.na(diff)] <- 0
         distances[, c] <- apply(diff^2, 1, sum)
     }
-    apply(distances, 1, which.min)
+    predictions <- apply(distances, 1, which.min)
+    predictions[apply(is.na(newdata), 1, all)] <- NA
+    predictions
 }
 
 
