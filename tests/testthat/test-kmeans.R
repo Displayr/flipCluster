@@ -1,12 +1,12 @@
 context("k-means")
 
 
-for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging"))
+for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging", "Batch"))
     for (dens in 1:3)
         for (n in 200)
 test_that(paste("K-means algorithm", alg, " density =", dens),
           {
-set.seed(121)
+              set.seed(121)
               #alg = "Hartigan-Wong"
               #dens = 3
               test.data <- CreateSimulatedClusters(dens, 4, 10, n)

@@ -8,7 +8,7 @@
 #' The default is to predict \code{NA}.
 #' @param ... Additional arguments to pass to predict.lda.
 #' The default is to predict \code{NA}.
-#' @importFrom stats na.pass
+#' @importFrom stats na.pass predict
 #' @importFrom flipStatistics SumOfSquares
 #' @export
 predict.KMeans <- function(object, newdata = object$model, ...)
