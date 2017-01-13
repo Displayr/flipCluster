@@ -184,7 +184,7 @@ KMeans <- function(data = NULL,
         result$cluster[analysis.subset] <- clusters.a <- predict.KMeans(result$centers, data.a)
         result$centers <- MeanByGroup(data.a, clusters.a, weights.a)
     }
-    result$cluster <- factor(paste("Cluster", cluster))
+    result$cluster <- factor(cluster, levels = 1:n.clusters, labels = paste("Cluster", 1:n.clusters))
     # Goodness-of-fit
     tss <- TotalSumOfSquares(data.a, weights.a)
     rss <- ResidualSumOfSquares(data.a, cluster.a, weights.a)
