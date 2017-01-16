@@ -19,4 +19,12 @@ Imports:
     flipTransformations,
     flipU,
     stats
+Remotes:
+    NumbersInternational/flipAnalysisOfVariance,
+    NumbersInternational/flipData,
+    NumbersInternational/flipFormat,
+    NumbersInternational/flipRegression,
+    NumbersInternational/flipStatistics,
+    NumbersInternational/flipTransformations,
+    NumbersInternational/flipU
 RoxygenNote: 5.0.1
