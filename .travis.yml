@@ -1,15 +1,22 @@
 language: R
 dist: trusty  # ubuntu 14.04 has additional libraries available
-sudo: false
+sudo: required
 cache: packages
 warnings_are_errors: false
 
+# install debian libraries to match R-servers
 # update pre-installed packages to latest versions
 before_install:
-  Rscript -e 'update.packages(ask = FALSE)'
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libgdal-dev libproj-dev python-protobuf libprotoc-dev libprotobuf-dev libv8-dev librsvg2-dev
+  - Rscript -e 'update.packages(ask = FALSE)'
 
 # last stable version of devtools does not support private depositories
 r_github_packages: hadley/devtools#1263
+
+script:
+  - R CMD build --no-manual --no-build-vignettes --no-resave-data .
+  - R CMD check --as-cran --no-manual --no-build-vignettes *.tar.gz
 
 notifications:
   slack:
@@ -19,3 +26,4 @@ notifications:
       - "Build <%{build_url}|#%{build_number}> %{result} in %{repository_name}@%{branch} by %{author}: <%{compare_url}|%{commit_message}>"
     on_success: change
     on_failure: always
+
