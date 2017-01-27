@@ -33,7 +33,7 @@ test_that(paste("Weighted K-means algorithm", alg, " density =", dens),
 test_that("Error with batch",
           {
                 dat <- data.frame(a = 1:10, b = 1:10)
-                expect_error(KMeans(as.data.frame(dat), 2, algorithm = alg, weights = NULL, seed = NULL))
+                expect_error(KMeans(as.data.frame(dat), 2, algorithm = "batch", weights = NULL, seed = NULL))
           }
           )
 
