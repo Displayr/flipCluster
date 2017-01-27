@@ -10,9 +10,6 @@ test_that("Allocate to clusters",
           })
 
 
-
-
-
 for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging", "Batch"))
     for (dens in 1:3)
         for (n in 200)
@@ -27,6 +24,8 @@ for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging", "Batch")
                 #AdjustedRand(test.data$cluster, z$cluster)
 
                 expect_equal(AdjustedRand(test.data$cluster, predict(z)), 1)
+                if (AdjustedRand(test.data$cluster, predict(z)) < 1)
+                    stop("interrum. This should not have been committed.")
           })
 
 
