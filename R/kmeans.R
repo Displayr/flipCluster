@@ -25,8 +25,14 @@
 #' @param show.labels Shows the variable labels, as opposed to the labels, in the outputs, where a
 #' variables label is an attribute (e.g., attr(foo, "label")).
 #' @param binary Makes categorical variables into indicator variables (otherwise their values are used).
-#' @details \code{"Bagging"} runs the cluster analysis with boostrap samples, and then applies hierarchical clsuter
-#' analysis find clusters of cluster centers (Leisch 1999).
+#' @param verbose Whether or not to show the verbose outputs to \code{bclust}. Defaults to false.
+#' @param ... Additional arguments to \code{bclust}.
+#' @details \code{"Bagging"} uses bagging in an attempt to find replicable custers.
+#' By default, 10 bootstrap samples are created (using weights if provided), and k-mean
+#' cluster analysis is used to find 20 clusters in each of these samples, and the complete-link
+#' hiearchical clustering algorithm is then used to form the final clusters (Leisch 1999).
+#' See \code{\link{bclust}} to see the names and descriptions of additional parameters.
+#' After running \code{\link{bclust}}, cases are assigned to the most similar cluster.
 
 #' @references
 #' Forgy, E. W. (1965) Cluster analysis of multivariate data: efficiency vs interpretability of classifications. Biometrics 21, 768–769.
@@ -55,7 +61,8 @@ KMeans <- function(data = NULL,
                    output = "Means",
                    seed = 1223,
                    binary = FALSE,
-                   show.labels = FALSE)
+                   show.labels = FALSE,
+                   verbose = FALSE, ...)
 {
     ####################################################################
     ##### Reading in the data and doing some basic tidying        ######
@@ -118,7 +125,10 @@ KMeans <- function(data = NULL,
     n.clusters <- if (length(centers) > 1) nrow(centers) else centers
     model <- if (algorithm == "Bagging")
         {
-            mod <- try(bclust(x, iter.base = n.starts, weights = .weights, centers = n.clusters, base.centers = n.clusters, final.kmeans = FALSE, verbose = FALSE),
+            if (n < 100)
+                warning(paste0("There are only ", n, " complete cases; a robust bagging model is highly unlikely."))
+            b.base.clusters <- min(n.clusters * 10, n / 10)
+            mod <- try(bclust(x, weights = .weights, centers = n.clusters, verbose = verbose, ...),
                        silent = TRUE)
             if (any("try-error" %in% class(mod)))
                 stop("Bagged clustering algorithm has failed. This may mean that there is too little variation in your data for bagged clustering to be appropriate.")
