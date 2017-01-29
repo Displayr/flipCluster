@@ -161,7 +161,8 @@ KMeans <- function(data = NULL,
     colnames(centers) <- variable.labels
     result <- list(#cluster = rep(NA, nrow(data)),
                    centers = t(centers),
-                   cluster.label = cluster.label)#,
+                   cluster.label = cluster.label,
+                   binary = binary)#,
     class(result) <- "KMeans"
 
     # Saving data - generally applicable.

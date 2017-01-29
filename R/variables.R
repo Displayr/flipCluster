@@ -10,11 +10,13 @@
 #' The default is to predict \code{NA}.
 #' @importFrom stats na.pass predict
 #' @importFrom flipStatistics SumOfSquares
+#' @importFrom flipTransformations AsNumeric
 #' @export
 predict.KMeans <- function(object, newdata = object$model, ...)
 {
     centers <- if (class(object) == "KMeans") object$centers else object
     n.clusters <- nrow(centers)
+    newdata <- AsNumeric(newdata, object$binary)
     n.variables <- ncol(newdata)
     n <- nrow(newdata)
     if (ncol(centers) != n.variables)

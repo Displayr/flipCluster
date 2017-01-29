@@ -7,7 +7,7 @@
 KMeans(data = NULL, centers = 2, subset = NULL, weights = NULL,
   missing = "Use partial data", iter.max = 100, n.starts = 10,
   algorithm = "Batch", output = "Means", seed = 1223, binary = FALSE,
-  show.labels = FALSE)
+  show.labels = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{data}{A \code{\link{data.frame}}.}
@@ -45,13 +45,21 @@ number of start points.}
 
 \item{show.labels}{Shows the variable labels, as opposed to the labels, in the outputs, where a
 variables label is an attribute (e.g., attr(foo, "label")).}
+
+\item{verbose}{Whether or not to show the verbose outputs to \code{bclust}. Defaults to false.}
+
+\item{...}{Additional arguments to \code{bclust}.}
 }
 \description{
 KMeans Cluster Analysis.
 }
 \details{
-\code{"Bagging"} runs the cluster analysis with boostrap samples, and then applies hierarchical clsuter
-analysis find clusters of cluster centers (Leisch 1999).
+\code{"Bagging"} uses bagging in an attempt to find replicable custers.
+By default, 10 bootstrap samples are created (using weights if provided), and k-mean
+cluster analysis is used to find 20 clusters in each of these samples, and the complete-link
+hiearchical clustering algorithm is then used to form the final clusters (Leisch 1999).
+See \code{\link{bclust}} to see the names and descriptions of additional parameters.
+After running \code{\link{bclust}}, cases are assigned to the most similar cluster.
 }
 \references{
 Forgy, E. W. (1965) Cluster analysis of multivariate data: efficiency vs interpretability of classifications. Biometrics 21, 768–769.
