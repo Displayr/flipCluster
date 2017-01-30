@@ -4,8 +4,6 @@
 #' @param object A \code{KMeans} object, or, cluster centers.
 #' @param newdata Optionally, a data frame in which to look for variables with which to predict.
 #' If omitted, the data used to fit the model is used.
-#' @param na.action Function determining what should be done with missing values in \code{newdata}.
-#' The default is to predict \code{NA}.
 #' @param ... Additional arguments to pass to predict.lda.
 #' The default is to predict \code{NA}.
 #' @importFrom stats na.pass predict

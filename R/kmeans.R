@@ -271,7 +271,8 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
 #'  Where \code{n.starts} is greater than 1, or, there are less than 100 cases left after removing cases with
 #'  incomplete data, the remaining start points are selected by: (1) identifying unique cases, and (2) sampling
 #'  without replacement from amongst the unique cases.
-#' @references Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm. Applied Statistics 28, 100–108.
+#' @references Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm.
+#' Applied Statistics 28, 100-108.
 #' @importFrom stats aggregate complete.cases kmeans
 #' @importFrom flipTransformations AdjustDataToReflectWeights
 #' @export

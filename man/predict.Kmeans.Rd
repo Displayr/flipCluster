@@ -14,9 +14,6 @@ If omitted, the data used to fit the model is used.}
 
 \item{...}{Additional arguments to pass to predict.lda.
 The default is to predict \code{NA}.}
-
-\item{na.action}{Function determining what should be done with missing values in \code{newdata}.
-The default is to predict \code{NA}.}
 }
 \description{
 Predicts cluster membership for the entire sample passed into the original analysis (including missing and filtered values).

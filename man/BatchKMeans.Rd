@@ -41,6 +41,7 @@ The two novel features of this algorithm, relative to traditional k-means algori
  without replacement from amongst the unique cases.
 }
 \references{
-Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm. Applied Statistics 28, 100–108.
+Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm.
+Applied Statistics 28, 100-108.
 }
 
