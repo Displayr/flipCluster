@@ -20,11 +20,11 @@ Imports:
     flipU,
     stats
 Remotes:
-    NumbersInternational/flipAnalysisOfVariance,
-    NumbersInternational/flipData,
-    NumbersInternational/flipFormat,
-    NumbersInternational/flipRegression,
-    NumbersInternational/flipStatistics,
-    NumbersInternational/flipTransformations,
-    NumbersInternational/flipU
+    Displayr/flipAnalysisOfVariance,
+    Displayr/flipData,
+    Displayr/flipFormat,
+    Displayr/flipRegression,
+    Displayr/flipStatistics,
+    Displayr/flipTransformations,
+    Displayr/flipU
 RoxygenNote: 5.0.1
