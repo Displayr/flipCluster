@@ -2,9 +2,9 @@ Package: flipCluster
 Type: Package
 Title: Cluster analysis
 Version: 0.1.0
-Author: Tim Bock <tim.bock@numbers.net.au>
-Maintainer: Tim Bock <tim.bock@numbers.net.au>
-Description: Cluster analysis and related routines.
+Author: Displayr <opensource@displayr.com>
+Maintainer: Displayr <opensource@displayr.com>
+Description: Wrappers for cluster analysis and related routines according to the flip Project conventions.
 License: GPL-3
 LazyData: TRUE
 Suggests:
