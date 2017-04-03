@@ -22,4 +22,3 @@ Generates artificial clusters from a truncated normal distribution.
 \references{
 Glenn W. Milligan (1985). An algorithm for generating artificial data sets which contain distinct nonoverlapping clusters is presented. The algorithm is useful for generating test data sets for Monte Carlo validation research conducted on clustering methods or statistics. The algorithm generates data sets which contain either 1, 2, 3, 4, or 5 clusters. By default, the data are embedded in either a 4, 6, or 8 dimensional space. Three different patterns for assigning the points to the clusters are provided. One pattern assigns the points equally to the clusters while the remaining two schemes produce clusters of unequal sizes. Finally, a number of methods for introducing error in the data have been incorporated in the algorithm. Psychometrica. February.
 }
-

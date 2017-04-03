@@ -19,4 +19,3 @@ ResidualSumOfSquares
 \details{
 Missing values are ignored.
 }
-

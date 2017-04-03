@@ -16,4 +16,3 @@ ExternalIndices(k, Classification1, Classification2)
 \description{
 Measures of classification quality.
 }
-

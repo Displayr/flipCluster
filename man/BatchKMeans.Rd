@@ -44,4 +44,3 @@ The two novel features of this algorithm, relative to traditional k-means algori
 Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm.
 Applied Statistics 28, 100-108.
 }
-

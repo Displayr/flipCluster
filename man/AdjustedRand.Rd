@@ -14,4 +14,3 @@ AdjustedRand(trial.classification, test.classification)
 \description{
 Checks the similarity of two classifications: 1 indicates perfect, 0 indicates as if random.
 }
-

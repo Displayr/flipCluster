@@ -18,4 +18,3 @@ The default is to predict \code{NA}.}
 \description{
 Predicts cluster membership for the entire sample passed into the original analysis (including missing and filtered values).
 }
-

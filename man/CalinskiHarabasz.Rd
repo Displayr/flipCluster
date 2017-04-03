@@ -17,4 +17,3 @@ CalinskiHarabasz(x, centers, clusters)
 Statistic for evaluating the fit of a cluster analysis (higher is better).
 KMeans Cluster Analysis.
 }
-

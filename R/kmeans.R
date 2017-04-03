@@ -41,7 +41,7 @@
 #' Lloyd, S. P. (1957, 1982) Least squares quantization in PCM. Technical Note, Bell Laboratories. Published in 1982 in IEEE Transactions on Information Theory 28, 128-137.
 #' MacQueen, J. (1967) Some methods for classification and analysis of multivariate observations. In Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, eds L. M. Le Cam & J. Neyman, 1, pp. 281-297. Berkeley, CA: University of California Press.
 #
-#' @importFrom flipData CleanSubset CleanWeights EstimationData
+#' @importFrom flipData CleanSubset CleanWeights EstimationData ProcessQVariables
 #' @importFrom flipFormat Labels ExtractCommonPrefix Names FormatAsPercent
 #' @importFrom flipTransformations CreatingFactorDependentVariableIfNecessary AsNumeric Factor AdjustDataToReflectWeights
 #' @importFrom flipU OutcomeName
@@ -104,7 +104,7 @@ KMeans <- function(data = NULL,
     ##### Data manipulation specific to kmeans                       #####
     ####################################################################
     # Making categorical variables numeric.
-    data <- AsNumeric(data, binary)
+    data <- AsNumeric(ProcessQVariables(data), binary)
     variable.labels <- Labels(data)
     # Treatment of missing values.
     if (missing == "Use partial data" && algorithm != "Batch" & any(!complete.cases(data)))

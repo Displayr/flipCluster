@@ -17,4 +17,3 @@ TotalSumOfSquares
 \details{
 Missing values are ignored.
 }
-
