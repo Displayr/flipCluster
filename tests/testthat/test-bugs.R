@@ -6,6 +6,7 @@ test_that("DS-975",
               suppressWarnings({
                   gss <- read.spss("https://docs.displayr.com/images/7/7b/GSS2014.sav",
                                    to.data.frame = TRUE, max.value.labels = 20)
+                  expect_equal(length(gss), 380)
                   gss <- flipExampleData::TidySPSS(gss)
                   attach(gss)
                   kmeans <- KMeans(data.frame(confinan, conbus, coneduc, conlabor,
