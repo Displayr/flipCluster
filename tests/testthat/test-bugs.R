@@ -2,18 +2,23 @@ context("Bugs")
 
 test_that("DS-975",
           {
-              library(foreign)
-              suppressWarnings({
-                  gss <- read.spss("https://docs.displayr.com/images/7/7b/GSS2014.sav",
-                                   to.data.frame = TRUE, max.value.labels = 20)
-                  expect_equal(length(gss), 380)
+                  suppressWarnings(gss <- foreign::read.spss("https://docs.displayr.com/images/7/7b/GSS2014.sav",
+                                   to.data.frame = TRUE, max.value.labels = 20))
+                  expect_equal(dim(gss), c(3842, 380))
                   gss <- flipExampleData::TidySPSS(gss)
+                  expect_equal(dim(gss), c(3842, 380))
                   attach(gss)
-                  kmeans <- KMeans(data.frame(confinan, conbus, coneduc, conlabor,
-                                              conmedic, conpress), show.labels = TRUE)
+                  df <- data.frame(confinan, conbus, coneduc, conlabor,
+                                              conmedic, conpress)
+                  expect_equal(dim(df), c(3842, 6))
+                  z = suppressWarnings(apply(flipTransformations::AsNumeric(df, binary = FALSE), 2, mean, na.rm = TRUE))
+                  expect_equal(unname(z), c(2.189400, 2.018562, 1.943903, 2.183138, 1.727344, 2.368917), tolerance = 5e-7)
+                  z = suppressWarnings(apply(flipTransformations::AsNumeric(df, binary = FALSE), 2, sd, na.rm = TRUE))
+                  expect_equal(unname(z), c(0.6434409, 0.5976801, 0.6378311, 0.6168390, 0.6404637, 0.6238356), tolerance = 5e-8)
+                  kmeans <- suppressWarnings(KMeans(df, show.labels = TRUE))
+
                   expect_error(print(kmeans), NA)
                   detach(gss)
-              })
           })
 
 

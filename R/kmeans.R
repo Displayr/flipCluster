@@ -271,15 +271,13 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
 #'  Where \code{n.starts} is greater than 1, or, there are less than 100 cases left after removing cases with
 #'  incomplete data, the remaining start points are selected by: (1) identifying unique cases, and (2) sampling
 #'  without replacement from amongst the unique cases.
-#' @references Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm.
-#' Applied Statistics 28, 100-108.
 #' @importFrom stats aggregate complete.cases kmeans
 #' @importFrom flipTransformations AdjustDataToReflectWeights
 #' @export
 BatchKMeans <- function(x, centers, weights, iter.max, n.starts, seed = 1223)
 {
     set.seed(seed)
-    best.centers <- NULL
+    best.centers <- centers
     global.lowest.rss <- Inf
     unique.cases <- unique(x)
     n.clusters <- if(length(centers) == 1) centers else nrow(centers)
@@ -309,11 +307,12 @@ BatchKMeans <- function(x, centers, weights, iter.max, n.starts, seed = 1223)
             centers <- MeanByGroup(x, cluster, weights)
             cluster <- predict.KMeans(centers, x)
         }
-        if (global.lowest.rss > lowest.rss)
+        if (global.lowest.rss >= lowest.rss)
         {
             global.lowest.rss <- lowest.rss
             best.centers <- centers
         }
     }
+
     list(cluster = predict.KMeans(best.centers, x), centers = best.centers)
 }
