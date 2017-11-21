@@ -11,9 +11,14 @@ test_that("DS-975",
                   df <- data.frame(confinan, conbus, coneduc, conlabor,
                                               conmedic, conpress)
                   expect_equal(dim(df), c(3842, 6))
-                  z = suppressWarnings(apply(flipTransformations::AsNumeric(df, binary = FALSE), 2, mean, na.rm = TRUE))
+                  zz = suppressWarnings(flipTransformations::AsNumeric(df, binary = FALSE))
+                  # Checking the raw data coming out of AsNumeric
+                  expect_equal(zz[1:3,1], c(2, 1, NA))
+                  expect_equal(unname(zz[1,]), c(2, 1, 2, 3, 2, 2))
+                  # Checking the first two moments of the variables
+                  z = suppressWarnings(apply(zz, 2, mean, na.rm = TRUE))
                   expect_equal(unname(z), c(2.189400, 2.018562, 1.943903, 2.183138, 1.727344, 2.368917), tolerance = 5e-7)
-                  z = suppressWarnings(apply(flipTransformations::AsNumeric(df, binary = FALSE), 2, sd, na.rm = TRUE))
+                  z = suppressWarnings(apply(zz, 2, sd, na.rm = TRUE))
                   expect_equal(unname(z), c(0.6434409, 0.5976801, 0.6378311, 0.6168390, 0.6404637, 0.6238356), tolerance = 5e-8)
                   kmeans <- suppressWarnings(KMeans(df, show.labels = TRUE))
 
