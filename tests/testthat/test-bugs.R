@@ -2,19 +2,23 @@ context("Bugs")
 
 test_that("DS-975",
           {
-                  suppressWarnings(gss <- foreign::read.spss("https://docs.displayr.com/images/7/7b/GSS2014.sav",
-                                   to.data.frame = TRUE, max.value.labels = 20))
-                  expect_equal(dim(gss), c(3842, 380))
-                  gss <- flipExampleData::TidySPSS(gss)
-                  expect_equal(dim(gss), c(3842, 380))
-                  attach(gss)
+                  suppressWarnings(gss.raw <- foreign::read.spss("https://docs.displayr.com/images/7/7b/GSS2014.sav",
+                                   to.data.frame = TRUE, max.value.labels = 1000))
+                  expect_equal(dim(gss.raw), c(3842, 380))
+                  expect_equal(as.character(gss.raw$confinan[1:3]), c("ONLY SOME", "A GREAT DEAL", NA))
+                  expect_equal(levels(gss.raw$confinan)[1:3], c("A GREAT DEAL", "ONLY SOME", "HARDLY ANY"))
+
+                  gss.tidy <- flipExampleData::TidySPSS(gss.raw)
+                  expect_equal(as.character(gss.tidy$confinan[1:3]), c("ONLY SOME", "A GREAT DEAL", NA))
+                  expect_equal(dim(gss.tidy), c(3842, 380))
+                  attach(gss.tidy)
                   df <- data.frame(confinan, conbus, coneduc, conlabor,
                                               conmedic, conpress)
                   expect_equal(dim(df), c(3842, 6))
                   zz = suppressWarnings(flipTransformations::AsNumeric(df, binary = FALSE))
                   # Checking the raw data coming out of AsNumeric
                   expect_equal(zz[1:3,1], c(2, 1, NA))
-                  expect_equal(unname(zz[1,]), c(2, 1, 2, 3, 2, 2))
+                  expect_equal(as.numeric(zz[1,]), c(2, 1, 2, 3, 2, 2))
                   # Checking the first two moments of the variables
                   z = suppressWarnings(apply(zz, 2, mean, na.rm = TRUE))
                   expect_equal(unname(z), c(2.189400, 2.018562, 1.943903, 2.183138, 1.727344, 2.368917), tolerance = 5e-7)
