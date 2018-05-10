@@ -267,7 +267,7 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
 #' The algorithm starts by initially assigning cases to clusters as follows:
 #' (1) Cases with missing values are removed.
 #' (2) If the data is weighted, a new 'bootstrapped' sample is created via resampling.
-#' (3) The Hartigan-Wong algorithm is applied to the bootrsapped sample.
+#' (3) The Hartigan-Wong algorithm is applied to the bootstrapped sample.
 #' (4) Each of the cases in the data set (including those with partially missing data) are assigned to the closest cluster center.
 #'
 #' The algorithm then repeatedly:
