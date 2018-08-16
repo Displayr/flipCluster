@@ -32,15 +32,18 @@ residual sum of squares stops reducing, or, \code{iter.max} is exceeded.
 The two novel features of this algorithm, relative to traditional k-means algorithms such as Hartigan and Wong (1979) are:
 (1) The algorithms addresses weights. (2) The algorithm classifies cases that have incomplete data.
 
- The first starting point of the algorithm is computed as follows: (1) Missing values are removed. (2) If the data is weighted,
- a new sample is created via resampling. (3) The Hartigan-Wong algorithm is applied to the syntheatic sample. (4) The cluster
- centers identified via Hartigan-Wong are used as the initial clusters of the batch method.
+The algorithm starts by initially assigning cases to clusters as follows:
+(1) Cases with missing values are removed.
+(2) If the data is weighted, a new 'bootstrapped' sample is created via resampling.
+(3) The Hartigan-Wong algorithm is applied to the bootstrapped sample.
+(4) Each of the cases in the data set (including those with partially missing data) are assigned to the closest cluster center.
 
- Where \code{n.starts} is greater than 1, or, there are less than 100 cases left after removing cases with
- incomplete data, the remaining start points are selected by: (1) identifying unique cases, and (2) sampling
- without replacement from amongst the unique cases.
-}
-\references{
-Hartigan, J. A. and Wong, M. A. (1979). A K-means clustering algorithm.
-Applied Statistics 28, 100-108.
+The algorithm then repeatedly:
+(1) Recomputes the clustered center as the weighted mean of the data for the cases assigned to the cluster.
+(2) Assigns cases to the closest cluster.
+This proceeds until the cluster membership stabilizes or the number of iterations is exceeded.
+
+Where \code{n.starts} is greater than 1, or, there are less than 100 cases left after removing cases with
+incomplete data, the remaining start points are selected by: (1) identifying unique cases, and (2) sampling
+without replacement from amongst the unique cases.
 }

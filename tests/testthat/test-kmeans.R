@@ -130,7 +130,8 @@ KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3)
 
 missing = "Imputation (replace missing values with estimates)"
 suppressWarnings(KMeans(data = dat, missing = missing, show.labels = TRUE, centers = 3))
-expect_error(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3))
+expect_warning(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3),
+               "Imputation has been selected, but the data has no missing values, so nothing has been imputed.")
 
 # iter.max does something
 t <- system.time(suppressWarnings(KMeans(data = dat, subset = sb,iter.max = 10,  weights = wgt, show.labels = TRUE, centers = 3)))
