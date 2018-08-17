@@ -132,6 +132,12 @@ missing = "Imputation (replace missing values with estimates)"
 suppressWarnings(KMeans(data = dat, missing = missing, show.labels = TRUE, centers = 3))
 expect_warning(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3),
                "Imputation has been selected, but the data has no missing values, so nothing has been imputed.")
+# expect_warning fails in Travis, hence tryCatch on the line below
+tryCatch(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3),
+         warning = function(w){
+             if (!grepl("Imputation has been selected, but the data has no missing values.", w$message))
+                 stop("OneWayAnova(...) did not throw a warning.")
+         })
 
 # iter.max does something
 t <- system.time(suppressWarnings(KMeans(data = dat, subset = sb,iter.max = 10,  weights = wgt, show.labels = TRUE, centers = 3)))
