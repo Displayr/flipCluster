@@ -130,8 +130,6 @@ KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3)
 
 missing = "Imputation (replace missing values with estimates)"
 suppressWarnings(KMeans(data = dat, missing = missing, show.labels = TRUE, centers = 3))
-expect_warning(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3),
-               "Imputation has been selected, but the data has no missing values, so nothing has been imputed.")
 # expect_warning fails in Travis, hence tryCatch on the line below
 tryCatch(KMeans(data = meanDat, missing = missing, show.labels = TRUE, centers = 3),
          warning = function(w){
