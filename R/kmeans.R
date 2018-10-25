@@ -48,7 +48,7 @@
 #' @importFrom stats aggregate complete.cases as.formula kmeans
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
-#' @importFrom flipStatistics Mean MeanByGroup Frequency
+#' @importFrom flipStatistics Mean MeanByGroup Frequency TotalSumOfSquares ResidualSumOfSquares
 #' @export
 KMeans <- function(data = NULL,
                    centers = 2,
