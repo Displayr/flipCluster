@@ -105,6 +105,8 @@ KMeans <- function(data = NULL,
     ####################################################################
     # Making categorical variables numeric.
     data <- AsNumeric(ProcessQVariables(data), binary)
+    orig.names <- names(data)
+    names(data) <- make.names(orig.names)
     variable.labels <- Labels(data)
     # Treatment of missing values.
     if (missing == "Use partial data" && algorithm != "Batch" & any(!complete.cases(data)))
@@ -147,7 +149,9 @@ KMeans <- function(data = NULL,
     # Computing summary statistics and results
     cluster.a <- model$cluster
     centers <- model$centers
-        # Replacing names with labels
+    
+    # Replacing names with labels
+    names(data) <- orig.names
     cluster.label <- paste0("K-Means: ", n.clusters, " clusters")
     if (show.labels)
     {
@@ -158,6 +162,7 @@ KMeans <- function(data = NULL,
     }
     else
         variable.labels <- Names(data)
+
     colnames(centers) <- variable.labels
     result <- list(#cluster = rep(NA, nrow(data)),
                    centers = t(centers),
