@@ -1,5 +1,12 @@
 context("k-means")
 
+test_that("Variable names",
+{
+    m <- mtcars
+    colnames(m)[1] <- "m/g"
+    expect_error(KMeans(m), NA)
+})
+
 
 for (alg in c("Hartigan-Wong", "Forgy", "Lloyd", "MacQueen", "Bagging", "Batch"))
     for (dens in 1:3)
