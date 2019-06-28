@@ -49,6 +49,7 @@
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
 #' @importFrom flipStatistics Mean MeanByGroup Frequency TotalSumOfSquares ResidualSumOfSquares
+#' @importFrom flipData SplitFormQuestions
 #' @export
 KMeans <- function(data = NULL,
                    centers = 2,
@@ -70,6 +71,10 @@ KMeans <- function(data = NULL,
     set.seed(seed)
     has.subset <- !is.null(subset) & length(subset) != 1
     partial <- missing == "Use partial data"
+
+    if (!is.null(data) && !is.data.frame(data))
+        data <- SplitFormQuestions(data, ...)
+
     n.total <- nrow(data)
     if (has.subset)
     {
@@ -149,7 +154,7 @@ KMeans <- function(data = NULL,
     # Computing summary statistics and results
     cluster.a <- model$cluster
     centers <- model$centers
-    
+
     # Replacing names with labels
     names(data) <- orig.names
     cluster.label <- paste0("K-Means: ", n.clusters, " clusters")
