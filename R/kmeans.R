@@ -72,7 +72,7 @@ KMeans <- function(data = NULL,
     has.subset <- !is.null(subset) & length(subset) != 1
     partial <- missing == "Use partial data"
 
-    if (!is.null(data) && !is.data.frame(data))
+    if (!is.null(data) && !is.data.frame(data) && is.list(data))
         data <- SplitFormQuestions(data, ...)
 
     n.total <- nrow(data)
