@@ -85,11 +85,7 @@ KMeans <- function(data = NULL,
         if (length(subset) > 1 & length(subset) != nrow(data))
             stop("'subset' and 'data' are required to have the same number of observations. They do not.")
         if (partial)
-        {
             subset <- CleanSubset(subset, n.total)
-            n.subset <- attr(subset, "n.subset")
-            original.subset <- subset
-        }
     }
     weighted <- !is.null(weights)
     if(weighted)
@@ -182,16 +178,10 @@ KMeans <- function(data = NULL,
     result$weights <- unfiltered.weights
     result$model <- data
     result$cluster <- cluster <- predict.KMeans(centers, data)
-    if (has.subset & (partial | weighted))
-    {
-        if (partial)
-            n <- sum(original.subset)
-    }
-    else
+    if (!(has.subset & (partial | weighted)))
         result$cluster[subset] <- model$cluster # This will often do nothing.
-    analysis.subset <- if(partial & has.subset) original.subset else subset
-    weights.a <- weights[analysis.subset]
-    data.a <- data[analysis.subset, , drop = FALSE]
+    weights.a <- weights[subset]
+    data.a <- data[subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
     sizes <- as.numeric(prop.table(sizes))
     rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(sizes, 2))
@@ -202,7 +192,7 @@ KMeans <- function(data = NULL,
         result$centers <- MeanByGroup(data.a, cluster.a, weights.a)
     if (weighted)
     {   # Essentially an extra iteration
-        result$cluster[analysis.subset] <- clusters.a <- predict.KMeans(result$centers, data.a)
+        result$cluster[subset] <- clusters.a <- predict.KMeans(result$centers, data.a)
         result$centers <- MeanByGroup(data.a, clusters.a, weights.a)
     }
     result$cluster <- factor(cluster, levels = 1:n.clusters, labels = paste("Cluster", 1:n.clusters))
