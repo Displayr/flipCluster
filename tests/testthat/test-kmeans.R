@@ -118,16 +118,6 @@ suppressWarnings(KMeans(data = dat, weights = wgt, show.labels = TRUE, centers =
 # Subset and weights
 suppressWarnings(KMeans(data = dat, subset = sb, weights = wgt, show.labels = TRUE, centers = 3))
 
-# Subset and weights with one weight equal to 0 (DS-2570)
-wgt2 <- wgt
-wgt2[2] <- 0
-suppressWarnings(KMeans(data = dat, subset = sb, weights = wgt2, show.labels = TRUE, centers = 3))
-
-# Subset with one row completely missing (DS-2570)
-dat2 <- dat
-dat2[2, ] <- NA
-suppressWarnings(KMeans(data = dat2, subset = sb, show.labels = TRUE, centers = 3))
-
 # Creating a data set with mean imputation
 meanDat <- as.data.frame(lapply(dat, unclass))
 mn <- matrix(apply(meanDat, 2, mean, na.rm = TRUE), byrow = TRUE, ncol = 25, nrow = nrow(meanDat))
