@@ -178,8 +178,6 @@ KMeans <- function(data = NULL,
     result$weights <- unfiltered.weights
     result$model <- data
     result$cluster <- cluster <- predict.KMeans(centers, data)
-    if (!(has.subset & (partial | weighted)))
-        result$cluster[subset] <- model$cluster # This will often do nothing.
     weights.a <- weights[subset]
     data.a <- data[subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)

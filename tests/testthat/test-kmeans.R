@@ -187,3 +187,24 @@ expect_equal(z2$cluster, z21$cluster)
 expect_true(!all(z$cluster == z2$cluster))
 
 })
+
+test_that("warnings and errors",{
+    set.seed(2)
+    clusters <- rep(1:3, c(20, 20, 20))
+    data <- data.frame(A = c(1, 2.1, 3)[clusters], B = 1)
+    # Warning and errors for bagging with small sample size
+    expect_error(suppressWarnings(KMeans(data, 2, algorithm = "Bagging")))
+    # Subset wrong size
+    expect_error(suppressWarnings(KMeans(data, 2, subset = rep(TRUE, 2))))
+    # Data set too small
+    expect_error(suppressWarnings(KMeans(data[1, , drop = FALSE], 2)))
+})
+
+test_that("Data provided as a list",{
+    set.seed(2)
+    clusters <- rep(1:3, c(20, 20, 20))
+    data <- list(a = data.frame(A = c(1, 2.1, 3)[clusters]), b = data.frame(B = rep(1, 60)))
+    attr(data[[1]], "questiontype") = "Number"
+    attr(data[[2]], "questiontype") = "Number"
+    expect_error(suppressWarnings(KMeans(data, 2)), NA)
+})
