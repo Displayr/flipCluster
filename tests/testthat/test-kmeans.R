@@ -118,6 +118,16 @@ suppressWarnings(KMeans(data = dat, weights = wgt, show.labels = TRUE, centers =
 # Subset and weights
 suppressWarnings(KMeans(data = dat, subset = sb, weights = wgt, show.labels = TRUE, centers = 3))
 
+# Subset and weights with one weight equal to 0 (DS-2570)
+wgt2 <- wgt
+wgt2[2] <- 0
+suppressWarnings(KMeans(data = dat, subset = sb, weights = wgt2, show.labels = TRUE, centers = 3))
+
+# Subset with one row completely missing (DS-2570)
+dat2 <- dat
+dat2[2, ] <- NA
+suppressWarnings(KMeans(data = dat2, subset = sb, show.labels = TRUE, centers = 3))
+
 # Creating a data set with mean imputation
 meanDat <- as.data.frame(lapply(dat, unclass))
 mn <- matrix(apply(meanDat, 2, mean, na.rm = TRUE), byrow = TRUE, ncol = 25, nrow = nrow(meanDat))
@@ -176,4 +186,25 @@ expect_equal(z2$cluster, z21$cluster)
 
 expect_true(!all(z$cluster == z2$cluster))
 
+})
+
+test_that("warnings and errors",{
+    set.seed(2)
+    clusters <- rep(1:3, c(20, 20, 20))
+    data <- data.frame(A = c(1, 2.1, 3)[clusters], B = 1)
+    # Warning and errors for bagging with small sample size
+    expect_error(suppressWarnings(KMeans(data, 2, algorithm = "Bagging")))
+    # Subset wrong size
+    expect_error(suppressWarnings(KMeans(data, 2, subset = rep(TRUE, 2))))
+    # Data set too small
+    expect_error(suppressWarnings(KMeans(data[1, , drop = FALSE], 2)))
+})
+
+test_that("Data provided as a list",{
+    set.seed(2)
+    clusters <- rep(1:3, c(20, 20, 20))
+    data <- list(a = data.frame(A = c(1, 2.1, 3)[clusters]), b = data.frame(B = rep(1, 60)))
+    attr(data[[1]], "questiontype") = "Number"
+    attr(data[[2]], "questiontype") = "Number"
+    expect_error(suppressWarnings(KMeans(data, 2)), NA)
 })
