@@ -22,7 +22,7 @@ Imports:
     flipU (>= 1.1.0),
     stats
 Remotes:
-    Displayr/flipAnalysisOfVariance,
+    Displayr/flipAnalysisOfVariance@DS-2837,
     Displayr/flipData,
     Displayr/flipFormat,
     Displayr/flipRegression,
