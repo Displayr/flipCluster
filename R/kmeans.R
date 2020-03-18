@@ -210,19 +210,11 @@ KMeans <- function(data = NULL,
     result$output <- output
     result$missing <- missing
     result$variable.labels <- variable.labels
+    attr(result, "ChartData") <- multipleMeansTable(result, return.data.frame = TRUE)
     result
 }
 
-#' print.KMeans
-#'
-#' @param x The \link{KMeans} object.
-#' @param p.cutoff The alpha value to use when highlighting results.
-#' @param digits The number of digits when printing the \code{"detail"} output.
-#' @param ... Generic print arguments.
-#' @importFrom flipFormat Labels FormatAsPercent FormatAsReal
-#' @importFrom flipAnalysisOfVariance MultipleMeans
-#' @export
-print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits") - 3L), ...)
+multipleMeansTable <- function(x, return.data.frame = FALSE)
 {
     subset <- x$subset
     variables <- x$model[subset, ]
@@ -231,17 +223,27 @@ print.KMeans <- function(x, p.cutoff = 0.05, digits = max(3L, getOption("digits"
             attr(variables[, i], "label") <- x$variable.labels[i]
     cluster <- x$cluster[subset]
     levels(cluster) <- rownames(x$centers)
-    table <- MultipleMeans(variables,
-                cluster,
-                weights = x$weights[subset],
-                show.labels = x$show.labels,
-                title = x$cluster.label,
-                subtitle = paste0("Variance explained:", FormatAsPercent(x$variance.explained), "; Calinski-Harabasz: ", FormatAsReal(x$calinski.harabasz, 2)),
-                footer = x$sample.description)
-    print(table)
+    MultipleMeans(variables,
+                  cluster,
+                  weights = x$weights[subset],
+                  show.labels = x$show.labels,
+                  title = x$cluster.label,
+                  subtitle = paste0("Variance explained:", FormatAsPercent(x$variance.explained), "; Calinski-Harabasz: ", FormatAsReal(x$calinski.harabasz, 2)),
+                  footer = x$sample.description,
+                  return.data.frame = return.data.frame)
 }
 
-
+#' print.KMeans
+#'
+#' @param x The \link{KMeans} object.
+#' @param ... Generic print arguments.
+#' @importFrom flipFormat Labels FormatAsPercent FormatAsReal
+#' @importFrom flipAnalysisOfVariance MultipleMeans
+#' @export
+print.KMeans <- function(x, ...)
+{
+    print(multipleMeansTable(x))
+}
 
 
 #' BatchKMeans

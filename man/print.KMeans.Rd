@@ -4,15 +4,10 @@
 \alias{print.KMeans}
 \title{print.KMeans}
 \usage{
-\method{print}{KMeans}(x, p.cutoff = 0.05, digits = max(3L,
-  getOption("digits") - 3L), ...)
+\method{print}{KMeans}(x, ...)
 }
 \arguments{
 \item{x}{The \link{KMeans} object.}
-
-\item{p.cutoff}{The alpha value to use when highlighting results.}
-
-\item{digits}{The number of digits when printing the \code{"detail"} output.}
 
 \item{...}{Generic print arguments.}
 }
