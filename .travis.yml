@@ -27,7 +27,7 @@ r_packages:
 r_github_packages:
   - Displayr/flipDevTools
   - Displayr/flipExampleData
-  - Displayr/flipAnalysisOfVariance@DS-2837
+  - Displayr/flipAnalysisOfVariance
 
 script:
   - R CMD build --no-manual --no-build-vignettes --no-resave-data .
