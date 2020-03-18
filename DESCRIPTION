@@ -1,7 +1,7 @@
 Package: flipCluster
 Type: Package
 Title: Cluster analysis
-Version: 1.1.1
+Version: 1.1.2
 Author: Displayr <opensource@displayr.com>
 Maintainer: Displayr <opensource@displayr.com>
 Description: Wrappers for cluster analysis and related routines according to the
@@ -13,7 +13,7 @@ Suggests:
     flipExampleData
 Imports:
     e1071,
-    flipAnalysisOfVariance,
+    flipAnalysisOfVariance (>= 1.2.2),
     flipData,
     flipFormat,
     flipRegression,
@@ -29,5 +29,5 @@ Remotes:
     Displayr/flipStatistics,
     Displayr/flipTransformations,
     Displayr/flipU
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
