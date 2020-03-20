@@ -26,6 +26,7 @@
 #' variables label is an attribute (e.g., attr(foo, "label")).
 #' @param binary Makes categorical variables into indicator variables (otherwise their values are used).
 #' @param verbose Whether or not to show the verbose outputs to \code{bclust}. Defaults to false.
+#' @param profile.var An optional list of variables which will be compared against the KMeans predicted cluster.
 #' @param ... Additional arguments to \code{bclust}.
 #' @details \code{"Bagging"} uses bagging in an attempt to find replicable custers.
 #' By default, 10 bootstrap samples are created (using weights if provided), and k-mean
@@ -49,6 +50,7 @@
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
 #' @importFrom flipStatistics Mean MeanByGroup Frequency TotalSumOfSquares ResidualSumOfSquares
+#' @importFrom flipAnalysisOfVariance SegmentComparisonTable
 #' @importFrom flipData SplitFormQuestions
 #' @export
 KMeans <- function(data = NULL,
@@ -60,6 +62,7 @@ KMeans <- function(data = NULL,
                    n.starts = 10,
                    algorithm = "Batch",
                    output = "Means",
+                   profile.var = NULL,
                    seed = 1223,
                    binary = FALSE,
                    show.labels = FALSE,
@@ -210,6 +213,8 @@ KMeans <- function(data = NULL,
     result$output <- output
     result$missing <- missing
     result$variable.labels <- variable.labels
+    if (!is.null(profile.var))
+        result$segment.profile.table <- SegmentComparisonTable(profile.var, result$cluster, ...)
     attr(result, "ChartData") <- multipleMeansTable(result, return.data.frame = TRUE)
     result
 }
@@ -223,12 +228,37 @@ multipleMeansTable <- function(x, return.data.frame = FALSE)
             attr(variables[, i], "label") <- x$variable.labels[i]
     cluster <- x$cluster[subset]
     levels(cluster) <- rownames(x$centers)
+
+
+    subtitle <- paste0("Variance explained:", FormatAsPercent(x$variance.explained), "; Calinski-Harabasz: ", FormatAsReal(x$calinski.harabasz, 2))
+    if (!is.null(x$segment.profile.table))
+    {
+        num.sig <- 0
+        var.sig <- NULL
+        prof.info <- attr(x$segment.profile.table, "question.labels")
+        prof.signif <- attr(x$segment.profile.table, "p-values")
+        pthres <- 1 - attr(x$segment.profile.table, "confidence")
+        row.offset <- 2
+        for (i in 2:length(prof.info))
+        {
+            if (any(prof.signif[row.offset + (1:prof.info[[i]]$height), ] < pthres, na.rm = TRUE))
+            {
+                num.sig <- num.sig + 1
+                var.sig <- c(var.sig, prof.info[[i]]$label)
+            }
+        }
+        if (num.sig == 0)
+            subtitle <- paste0(subtitle, "; Profiling: none significant")
+        else
+            subtitle <- paste0(subtitle, "; Profiling: ", num.sig, " significant ('", paste(var.sig, collapse = "', '"), "')")
+    }
+
     MultipleMeans(variables,
                   cluster,
                   weights = x$weights[subset],
                   show.labels = x$show.labels,
                   title = x$cluster.label,
-                  subtitle = paste0("Variance explained:", FormatAsPercent(x$variance.explained), "; Calinski-Harabasz: ", FormatAsReal(x$calinski.harabasz, 2)),
+                  subtitle = subtitle,
                   footer = x$sample.description,
                   return.data.frame = return.data.frame)
 }
@@ -242,7 +272,10 @@ multipleMeansTable <- function(x, return.data.frame = FALSE)
 #' @export
 print.KMeans <- function(x, ...)
 {
-    print(multipleMeansTable(x))
+    if (x$output == "Segment profiling table")
+        print(x$segment.profile.table)
+    else
+        print(multipleMeansTable(x))
 }
 
 

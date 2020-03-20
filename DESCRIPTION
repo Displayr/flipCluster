@@ -13,7 +13,7 @@ Suggests:
     flipExampleData
 Imports:
     e1071,
-    flipAnalysisOfVariance (>= 1.2.2),
+    flipAnalysisOfVariance (>= 1.2.4),
     flipData,
     flipFormat,
     flipRegression,

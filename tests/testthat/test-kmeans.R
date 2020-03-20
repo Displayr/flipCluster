@@ -243,3 +243,7 @@ test_that("Excel exporting", {
     suppressWarnings(result <- KMeans(dat))
     expect_equal(attr(result, "ChartData"), expected)
 })
+
+test_that("Segment profiling table", {
+    expect_warning(KMeans(dat, profile.var = list(consultant$Q004, consultant$Q002), output = "Segment profiling table"))
+})

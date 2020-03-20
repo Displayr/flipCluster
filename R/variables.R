@@ -14,10 +14,12 @@ predict.KMeans <- function(object, newdata = object$model, ...)
 {
     centers <- if (class(object) == "KMeans") object$centers else object
     n.clusters <- nrow(centers)
+    if (is.null(n.clusters))
+        stop("Not enough data")
     newdata <- AsNumeric(newdata, object$binary)
     n.variables <- ncol(newdata)
     n <- nrow(newdata)
-    if (ncol(centers) != n.variables)
+    if (NCOL(centers) != n.variables)
         stop("Different number of variables in data to that in centers.")
     distances <- matrix(NA, n, n.clusters)
     for (c in 1:n.clusters)

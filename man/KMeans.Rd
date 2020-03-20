@@ -14,6 +14,7 @@ KMeans(
   n.starts = 10,
   algorithm = "Batch",
   output = "Means",
+  profile.var = NULL,
   seed = 1223,
   binary = FALSE,
   show.labels = FALSE,
@@ -50,6 +51,8 @@ number of start points.}
 \code{"Bagging"}.}
 
 \item{output}{The defaults is \code{"Means"}. A table that is better for exporting is \code{"Means table"}.}
+
+\item{profile.var}{An optional list of variables which will be compared against the KMeans predicted cluster.}
 
 \item{seed}{The random number seed used in imputation.}
 
