@@ -4,9 +4,11 @@
 \name{gss}
 \alias{gss}
 \title{Data from the General Social Survey (2014)}
-\format{A data.frame with 3842 rows and six
+\format{
+A data.frame with 3842 rows and six
 categorical variables.  Each categorical variable has levels \code{"A GREAT DEAL"},
-\code{"ONLY SOME"}, and \code{"HARDLY ANY"}.}
+\code{"ONLY SOME"}, and \code{"HARDLY ANY"}.
+}
 \usage{
 data(gss)
 }

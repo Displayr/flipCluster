@@ -246,31 +246,66 @@ test_that("Excel exporting", {
 
 test_that("KMeans with profiling variables", {
     expect_warning(res0 <- KMeans(dat[,1:4], profile.var = dat[,4:8]))
+    expect_equal(attr(res0, "ChartData"),
+        structure(c(4.2690909090909, 4.42990654205607, 2.86497890295359,
+        4.65573770491804, 2.96551724137932, 3.64377682403434, 4.32098765432098,
+        3.75098814229249, 0.460136895610817, 0.229163600367499, 0.511784094619824,
+        0.290440917393334, 0, 0, 0, 0), .Dim = c(4L, 4L), .Dimnames = list(
+        c("Q050__1", "Q050__2", "Q050__3", "Q050__4"), c("Cluster 1 51%",
+        "Cluster 2 49%", "R_Squared", "p"))))
     expect_equal(attr(res0$segment.profile.table, "p-values"),
-                 structure(c(NA, NA, 0.067699103927979, 1.02368284817754e-05,
-                     1.6383739474027e-14, 6.3262976143517e-12, 4.77977256522667e-45,
-                     0.381775815833389, 0.0360812628047814, 0.981695444244361, 0.59959440961998,
-                     0.0836614308292276, 0.00609838969543429, 0.000525317459908154,
-                     0.0287410944082655, 0.454232524966793, 0.000426482865181953,
-                     0.204280183547591, 0.857672216064646, 0.0623663770020813, 0.555079620221953,
-                     0.565180886796126, 0.907641608500513, 0.0862148134692195, 0.00561022463533468,
-                     0.962316175026855, 0.000515618763475394, NA, NA, 0.067699103927979,
-                     1.02368284817754e-05, 1.6383739474027e-14, 6.32629761435172e-12,
-                     4.77977256522667e-45, 0.38177581583339, 0.0360812628047812, 0.981695444244361,
-                     0.599594409619979, 0.0836614308292278, 0.00609838969543429, 0.000525317459908157,
-                     0.0287410944082656, 0.454232524966793, 0.000426482865181955,
-                     0.204280183547591, 0.857672216064646, 0.0623663770020812, 0.555079620221954,
-                     0.565180886796129, 0.907641608500513, 0.0862148134692201, 0.00561022463533467,
-                     0.962316175026858, 0.000515618763475397), .Dim = c(27L, 2L), .Dimnames = list(
-                     c("Sample size", "Percentage", "Not at all Important 1",
-                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
-                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
-                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
-                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
-                       "2", "3", "4", "Very Important 5"), c("Cluster 1", "Cluster 2"
-                       ))))
+                 structure(c(NA, NA, 0.0879854281675534, 0.00173117766965397,
+                 1.5985226328648e-12, 8.01391194082797e-10, 1.49265114479027e-35,
+                 0.321467525729815, 0.0104231376735956, 0.941547814288849, 0.60702362778973,
+                 0.0340282783657163, 0.0255003777524322, 0.0116072686870963, 0.0113146899197774,
+                 0.738588280254279, 0.000362392243432268, 0.258020241504033, 0.710460322755445,
+                 0.141306921429078, 0.469532461941047, 0.859084241561719, 0.594527076326072,
+                 0.341527804930639, 0.0429727962424616, 0.402358420583344, 0.00220574195197782,
+                 NA, NA, 0.0879854281675534, 0.00173117766965398, 1.59852263286481e-12,
+                 8.01391194082808e-10, 1.49265114479025e-35, 0.321467525729815,
+                 0.0104231376735957, 0.941547814288846, 0.607023627789728, 0.0340282783657161,
+                 0.0255003777524322, 0.0116072686870963, 0.0113146899197774, 0.738588280254278,
+                 0.000362392243432264, 0.258020241504033, 0.710460322755444, 0.141306921429078,
+                 0.469532461941047, 0.859084241561719, 0.594527076326072, 0.341527804930639,
+                 0.0429727962424611, 0.402358420583342, 0.00220574195197784), .Dim = c(27L,
+                   2L), .Dimnames = list(c("Sample size", "Percentage", "Not at all Important 1",
+                   "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                   "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                   "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                   "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                   "2", "3", "4", "Very Important 5"), c("Cluster 1", "Cluster 2")))
+          )
 
     expect_warning(res1 <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table"))
+    expect_equal(attr(res1, "ChartData"), structure(c(522, 0.505324298160697, 0, 0.00819672131147541, 0.0245901639344262,
+        0.270491803278689, 0.69672131147541, 0.0175438596491228, 0.0921052631578947,
+        0.328947368421053, 0.385964912280702, 0.175438596491228, 0.00471698113207547,
+        0.0377358490566038, 0.122641509433962, 0.372641509433962, 0.462264150943396,
+        0, 0.00865800865800866, 0.0692640692640693, 0.393939393939394,
+        0.528138528138528, 0.0280373831775701, 0.0607476635514019, 0.182242990654206,
+        0.355140186915888, 0.373831775700935, 511, 0.494675701839303,
+        0.0118577075098814, 0.0592885375494071, 0.241106719367589, 0.541501976284585,
+        0.146245059288538, 0.0321100917431193, 0.174311926605505, 0.325688073394495,
+        0.362385321100917, 0.105504587155963, 0.0351758793969849, 0.100502512562814,
+        0.21608040201005, 0.35678391959799, 0.291457286432161, 0.00552486187845304,
+        0.00552486187845304, 0.110497237569061, 0.359116022099448, 0.519337016574586,
+        0.02, 0.085, 0.265, 0.395, 0.235), .Dim = c(27L, 2L), .Dimnames = list(
+        c("Sample size", "Percentage", "Good reputation in the industry: Not at all Important 1",
+        "Good reputation in the industry: 2", "Good reputation in the industry: 3",
+        "Good reputation in the industry: 4", "Good reputation in the industry: Very Important 5",
+        "Uses sophisticated research technology/strategies: Not at all Important 1",
+        "Uses sophisticated research technology/strategies: 2", "Uses sophisticated research technology/strategies: 3",
+        "Uses sophisticated research technology/strategies: 4", "Uses sophisticated research technology/strategies: Very Important 5",
+        "Provides highest data quality: Not at all Important 1",
+        "Provides highest data quality: 2", "Provides highest data quality: 3",
+        "Provides highest data quality: 4", "Provides highest data quality: Very Important 5",
+        "Completes research in an agreed-upon time: Not at all Important 1",
+        "Completes research in an agreed-upon time: 2", "Completes research in an agreed-upon time: 3",
+        "Completes research in an agreed-upon time: 4", "Completes research in an agreed-upon time: Very Important 5",
+        "Provides data analysis services: Not at all Important 1",
+        "Provides data analysis services: 2", "Provides data analysis services: 3",
+        "Provides data analysis services: 4", "Provides data analysis services: Very Important 5"
+        ), c("Cluster 1", "Cluster 2"))))
     expect_equal(attr(res1$segment.profile.table, "p-values"),
                  attr(res0$segment.profile.table, "p-values"))
 })

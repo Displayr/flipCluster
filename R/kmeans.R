@@ -217,10 +217,16 @@ KMeans <- function(data = NULL,
     result$missing <- missing
     result$variable.labels <- variable.labels
     result$max.nchar.subtitle <- max.nchar.subtitle
+
+
     if (!is.null(profile.var))
         result$segment.profile.table <- SegmentComparisonTable(profile.var, result$cluster,
                                             font.color.set.if.nonsignificant = TRUE, ...)
-    attr(result, "ChartData") <- multipleMeansTable(result, return.data.frame = TRUE)
+    # Output 'Means table' has already been returned as a matrix
+    if (output == "Segment profiling table")
+        attr(result, "ChartData") <- attr(result$segment.profile.table, "ChartData")
+    else
+        attr(result, "ChartData") <- multipleMeansTable(result, return.data.frame = TRUE)
     result
 }
 
