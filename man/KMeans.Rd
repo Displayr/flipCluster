@@ -18,6 +18,7 @@ KMeans(
   seed = 1223,
   binary = FALSE,
   show.labels = FALSE,
+  max.nchar.subtitle = 200,
   verbose = FALSE,
   ...
 )
@@ -61,9 +62,12 @@ number of start points.}
 \item{show.labels}{Shows the variable labels, as opposed to the labels, in the outputs, where a
 variables label is an attribute (e.g., attr(foo, "label")).}
 
+\item{max.nchar.subtitle}{Maximum number of characters in the subtitle.
+This is used to determine the number of significant profiling variables to show.}
+
 \item{verbose}{Whether or not to show the verbose outputs to \code{bclust}. Defaults to false.}
 
-\item{...}{Additional arguments to \code{bclust}.}
+\item{...}{Additional arguments to \code{bclust} and \code{SegmentComparisonTable}.}
 }
 \description{
 KMeans Cluster Analysis.

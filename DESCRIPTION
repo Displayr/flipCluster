@@ -1,7 +1,7 @@
 Package: flipCluster
 Type: Package
 Title: Cluster analysis
-Version: 1.1.2
+Version: 1.1.3
 Author: Displayr <opensource@displayr.com>
 Maintainer: Displayr <opensource@displayr.com>
 Description: Wrappers for cluster analysis and related routines according to the

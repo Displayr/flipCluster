@@ -244,6 +244,33 @@ test_that("Excel exporting", {
     expect_equal(attr(result, "ChartData"), expected)
 })
 
-test_that("Segment profiling table", {
-    expect_warning(KMeans(dat, profile.var = list(consultant$Q004, consultant$Q002), output = "Segment profiling table"))
+test_that("KMeans with profiling variables", {
+    expect_warning(res0 <- KMeans(dat[,1:4], profile.var = dat[,4:8]))
+    expect_equal(attr(res0$segment.profile.table, "p-values"),
+                 structure(c(NA, NA, 0.067699103927979, 1.02368284817754e-05,
+                     1.6383739474027e-14, 6.3262976143517e-12, 4.77977256522667e-45,
+                     0.381775815833389, 0.0360812628047814, 0.981695444244361, 0.59959440961998,
+                     0.0836614308292276, 0.00609838969543429, 0.000525317459908154,
+                     0.0287410944082655, 0.454232524966793, 0.000426482865181953,
+                     0.204280183547591, 0.857672216064646, 0.0623663770020813, 0.555079620221953,
+                     0.565180886796126, 0.907641608500513, 0.0862148134692195, 0.00561022463533468,
+                     0.962316175026855, 0.000515618763475394, NA, NA, 0.067699103927979,
+                     1.02368284817754e-05, 1.6383739474027e-14, 6.32629761435172e-12,
+                     4.77977256522667e-45, 0.38177581583339, 0.0360812628047812, 0.981695444244361,
+                     0.599594409619979, 0.0836614308292278, 0.00609838969543429, 0.000525317459908157,
+                     0.0287410944082656, 0.454232524966793, 0.000426482865181955,
+                     0.204280183547591, 0.857672216064646, 0.0623663770020812, 0.555079620221954,
+                     0.565180886796129, 0.907641608500513, 0.0862148134692201, 0.00561022463533467,
+                     0.962316175026858, 0.000515618763475397), .Dim = c(27L, 2L), .Dimnames = list(
+                     c("Sample size", "Percentage", "Not at all Important 1",
+                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                       "2", "3", "4", "Very Important 5", "Not at all Important 1",
+                       "2", "3", "4", "Very Important 5"), c("Cluster 1", "Cluster 2"
+                       ))))
+
+    expect_warning(res1 <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table"))
+    expect_equal(attr(res1$segment.profile.table, "p-values"),
+                 attr(res0$segment.profile.table, "p-values"))
 })
