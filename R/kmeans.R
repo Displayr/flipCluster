@@ -221,7 +221,9 @@ KMeans <- function(data = NULL,
 
     if (!is.null(profile.var))
         result$segment.profile.table <- SegmentComparisonTable(profile.var, result$cluster,
-                                            font.color.set.if.nonsignificant = TRUE, ...)
+                                            font.color.set.if.nonsignificant = TRUE,
+                                            subset = subset, weights = weights, ...)
+
     # Output 'Means table' has already been returned as a matrix
     if (output == "Segment profiling table")
         attr(result, "ChartData") <- attr(result$segment.profile.table, "ChartData")

@@ -245,7 +245,8 @@ test_that("Excel exporting", {
 })
 
 test_that("KMeans with profiling variables", {
-    expect_warning(res0 <- KMeans(dat[,1:4], profile.var = dat[,4:8]))
+    expect_warning(res0 <- KMeans(dat[,1:4], profile.var = dat[,4:8]),
+        "Data has been automatically converted")
     expect_equal(attr(res0, "ChartData"),
         structure(c(4.2690909090909, 4.42990654205607, 2.86497890295359,
         4.65573770491804, 2.96551724137932, 3.64377682403434, 4.32098765432098,
@@ -276,7 +277,8 @@ test_that("KMeans with profiling variables", {
                    "2", "3", "4", "Very Important 5"), c("Cluster 1", "Cluster 2")))
           )
 
-    expect_warning(res1 <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table"))
+    expect_warning(res1 <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table"),
+        "Data has been automatically converted to numeric")
     expect_equal(attr(res1, "ChartData"), structure(c(522, 0.505324298160697, 0, 0.00819672131147541, 0.0245901639344262,
         0.270491803278689, 0.69672131147541, 0.0175438596491228, 0.0921052631578947,
         0.328947368421053, 0.385964912280702, 0.175438596491228, 0.00471698113207547,
@@ -308,4 +310,18 @@ test_that("KMeans with profiling variables", {
         ), c("Cluster 1", "Cluster 2"))))
     expect_equal(attr(res1$segment.profile.table, "p-values"),
                  attr(res0$segment.profile.table, "p-values"))
+
+    ff <- rep(FALSE, 1148)
+    ff[1:500] <- TRUE
+    expect_warning(resF <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table",
+        subset = ff), "Data has been automatically converted")
+    expect_equal(attr(resF, "ChartData")[1,], c(`Cluster 1` = 215, `Cluster 2` = 244))
+
+    ww <- (1:1148)/sum(1:1148)
+    expect_warning(resW <- KMeans(dat[,1:4], profile.var = dat[,4:8], output = "Segment profiling table",
+        weights = ww), "Data has been automatically converted")
+    expect_equal(attr(resW, "ChartData")[1:2,],
+        structure(c(435, 0.426115612025173, 598, 0.573884387974827), .Dim = c(2L,
+        2L), .Dimnames = list(c("Sample size (unweighted)", "Percentage (weighted)"
+        ), c("Cluster 1", "Cluster 2"))))
 })
