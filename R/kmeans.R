@@ -267,11 +267,11 @@ multipleMeansTable <- function(x, return.data.frame = FALSE)
         {
             tmp.nchar <- cumsum(nchar(var.sig)) + nchar(subtitle)
             tmp.maxind <- max(which(tmp.nchar < x$max.nchar.subtitle))
-            tmp.var.list <- paste(var.sig[1:tmp.maxind], collapse = "', '")
+            tmp.var.list <- paste(var.sig[1:tmp.maxind], collapse = "; ")
             if (tmp.maxind == length(var.sig))
-                tmp.var.list <- paste0("('", tmp.var.list, "')")
+                tmp.var.list <- paste0("(", tmp.var.list, ")")
             else
-                tmp.var.list <- paste0("('", tmp.var.list, "', ...)")
+                tmp.var.list <- paste0("(", tmp.var.list, "; ...)")
             subtitle <- paste0(subtitle, "; Profiling: ", num.sig, " significant ", tmp.var.list)
         }
     }
