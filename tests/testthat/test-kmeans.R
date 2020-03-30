@@ -238,7 +238,7 @@ test_that("Excel exporting", {
                       "Q050__12", "Q050__13", "Q050__14", "Q050__15", "Q050__16",
                       "Q050__17", "Q050__18", "Q050__19", "Q050__20", "Q050__21",
                       "Q050__22", "Q050__23", "Q050__24", "Q050__25"),
-                    c("Cluster 1 47%", "Cluster 2 53%", "R_Squared", "p")))
+                    c("Cluster 1 47% n: 542", "Cluster 2 53% n: 602", "R-Squared", "p")))
 
     suppressWarnings(result <- KMeans(dat))
     expect_equal(attr(result, "ChartData"), expected)
@@ -252,8 +252,8 @@ test_that("KMeans with profiling variables", {
         4.65573770491804, 2.96551724137932, 3.64377682403434, 4.32098765432098,
         3.75098814229249, 0.460136895610817, 0.229163600367499, 0.511784094619824,
         0.290440917393334, 0, 0, 0, 0), .Dim = c(4L, 4L), .Dimnames = list(
-        c("Q050__1", "Q050__2", "Q050__3", "Q050__4"), c("Cluster 1 51%",
-        "Cluster 2 49%", "R_Squared", "p"))))
+        c("Q050__1", "Q050__2", "Q050__3", "Q050__4"), c("Cluster 1 51% n: 522",
+        "Cluster 2 49% n: 511", "R-Squared", "p"))))
     expect_equal(attr(res0$segment.profile.table, "p-values"),
                  structure(c(NA, NA, 0.0879854281675534, 0.00173117766965397,
                  1.5985226328648e-12, 8.01391194082797e-10, 1.49265114479027e-35,
