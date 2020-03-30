@@ -4,13 +4,14 @@
 #' @param object A \code{KMeans} object, or, cluster centers.
 #' @param newdata Optionally, a data frame in which to look for variables with which to predict.
 #' If omitted, the data used to fit the model is used.
+#' @param use.names Use names in \code{centers} to name levels in predicted output.
 #' @param ... Additional arguments to pass to predict.lda.
 #' The default is to predict \code{NA}.
 #' @importFrom stats na.pass predict
 #' @importFrom flipStatistics SumOfSquares
 #' @importFrom flipTransformations AsNumeric
 #' @export
-predict.KMeans <- function(object, newdata = object$model, ...)
+predict.KMeans <- function(object, newdata = object$model, use.names = FALSE, ...)
 {
     centers <- if (class(object) == "KMeans") object$centers else object
     n.clusters <- nrow(centers)
@@ -31,6 +32,8 @@ predict.KMeans <- function(object, newdata = object$model, ...)
     }
     predictions <- apply(distances, 1, which.min)
     predictions[apply(is.na(newdata), 1, all)] <- NA
+    if (use.names && !is.null(rownames(centers)))
+        predictions <- factor(predictions, labels = rownames(centers))
     predictions
 }
 

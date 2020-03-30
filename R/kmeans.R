@@ -2,9 +2,12 @@
 #'
 #' KMeans Cluster Analysis.
 #' @param data A \code{\link{data.frame}}.
-#' @param centers Either the number of clusters (e.g., 2), or a set of initial cluster
-#' centers. Where the number of clusters is specified, or the algorithm is 'Bagging',
-#' a random selection of rows of data is chosen  as the initial start points.
+#' @param centers Either the number of clusters (e.g., 2), or a set of initial
+#'  cluster centers. Where the number of clusters is specified, or the 
+#'  algorithm is 'Bagging', a random selection of rows of data is chosen
+#'  as the initial start points.
+#' @param centers.names An optional comma-separated list that will be used
+#'  to name the predicted clusters.
 #' @param subset An optional vector specifying a subset of observations to be
 #'   used in the fitting process, or, the name of a variable in \code{data}. It
 #'   may not be an expression. \code{subset} may not
@@ -47,7 +50,7 @@
 #' @importFrom flipData CleanSubset CleanWeights EstimationData
 #' @importFrom flipFormat Labels ExtractCommonPrefix Names FormatAsPercent
 #' @importFrom flipTransformations CreatingFactorDependentVariableIfNecessary AsNumeric Factor AdjustDataToReflectWeights ProcessQVariables
-#' @importFrom flipU OutcomeName
+#' @importFrom flipU OutcomeName ConvertCommaSeparatedStringToVector
 #' @importFrom stats aggregate complete.cases as.formula kmeans
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
@@ -57,6 +60,7 @@
 #' @export
 KMeans <- function(data = NULL,
                    centers = 2,
+                   centers.names = NULL,
                    subset = NULL,
                    weights = NULL,
                    missing = "Use partial data",
@@ -176,6 +180,11 @@ KMeans <- function(data = NULL,
                    cluster.label = cluster.label,
                    binary = binary)#,
     class(result) <- "KMeans"
+    
+    centers.names <- ConvertCommaSeparatedStringToVector(centers.names)
+    if (length(centers.names) < n.clusters)
+        centers.names <- c(centers.names, paste0("Cluster ", 
+            (length(centers.names) + 1):n.clusters))
 
     # Saving data - generally applicable.
     if (missing == "Imputation (replace missing values with estimates)")
@@ -188,7 +197,8 @@ KMeans <- function(data = NULL,
     data.a <- data[subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
     sizes <- as.numeric(prop.table(sizes))
-    rownames(centers) <- paste0("Cluster ", 1:n.clusters, "\n", FormatAsPercent(sizes, 2))
+    centers.names.and.desc <- paste0(centers.names, "\n", FormatAsPercent(sizes, 2))
+    rownames(centers) <- centers.names.and.desc
     result$centers <- centers
     if (output == "Means table")
         return(centers)
@@ -199,7 +209,7 @@ KMeans <- function(data = NULL,
         result$cluster[subset] <- clusters.a <- predict.KMeans(result$centers, data.a)
         result$centers <- MeanByGroup(data.a, clusters.a, weights.a)
     }
-    result$cluster <- factor(cluster, levels = 1:n.clusters, labels = paste("Cluster", 1:n.clusters))
+    result$cluster <- factor(cluster, levels = 1:n.clusters, labels = centers.names)
     # Goodness-of-fit
     tss <- TotalSumOfSquares(data.a, weights.a)
     rss <- ResidualSumOfSquares(data.a, cluster.a, weights.a)

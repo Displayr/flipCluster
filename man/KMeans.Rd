@@ -7,6 +7,7 @@
 KMeans(
   data = NULL,
   centers = 2,
+  centers.names = NULL,
   subset = NULL,
   weights = NULL,
   missing = "Use partial data",
@@ -26,9 +27,13 @@ KMeans(
 \arguments{
 \item{data}{A \code{\link{data.frame}}.}
 
-\item{centers}{Either the number of clusters (e.g., 2), or a set of initial cluster
-centers. Where the number of clusters is specified, or the algorithm is 'Bagging',
-a random selection of rows of data is chosen  as the initial start points.}
+\item{centers}{Either the number of clusters (e.g., 2), or a set of initial
+cluster centers. Where the number of clusters is specified, or the 
+algorithm is 'Bagging', a random selection of rows of data is chosen
+as the initial start points.}
+
+\item{centers.names}{An optional comma-separated list that will be used
+to name the predicted clusters.}
 
 \item{subset}{An optional vector specifying a subset of observations to be
 used in the fitting process, or, the name of a variable in \code{data}. It

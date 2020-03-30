@@ -4,13 +4,15 @@
 \alias{predict.KMeans}
 \title{\code{predict.KMeans}}
 \usage{
-\method{predict}{KMeans}(object, newdata = object$model, ...)
+\method{predict}{KMeans}(object, newdata = object$model, use.names = FALSE, ...)
 }
 \arguments{
 \item{object}{A \code{KMeans} object, or, cluster centers.}
 
 \item{newdata}{Optionally, a data frame in which to look for variables with which to predict.
 If omitted, the data used to fit the model is used.}
+
+\item{use.names}{Use names in \code{centers} to name levels in predicted output.}
 
 \item{...}{Additional arguments to pass to predict.lda.
 The default is to predict \code{NA}.}
