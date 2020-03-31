@@ -3,7 +3,7 @@
 #' KMeans Cluster Analysis.
 #' @param data A \code{\link{data.frame}}.
 #' @param centers Either the number of clusters (e.g., 2), or a set of initial
-#'  cluster centers. Where the number of clusters is specified, or the 
+#'  cluster centers. Where the number of clusters is specified, or the
 #'  algorithm is 'Bagging', a random selection of rows of data is chosen
 #'  as the initial start points.
 #' @param centers.names An optional comma-separated list that will be used
@@ -180,11 +180,13 @@ KMeans <- function(data = NULL,
                    cluster.label = cluster.label,
                    binary = binary)#,
     class(result) <- "KMeans"
-    
+
     centers.names <- ConvertCommaSeparatedStringToVector(centers.names)
     if (length(centers.names) < n.clusters)
-        centers.names <- c(centers.names, paste0("Cluster ", 
+        centers.names <- c(centers.names, paste0("Cluster ",
             (length(centers.names) + 1):n.clusters))
+    if (length(centers.names) > n.clusters)
+        centers.names <- centers.names[1:n.clusters]
 
     # Saving data - generally applicable.
     if (missing == "Imputation (replace missing values with estimates)")
@@ -197,6 +199,7 @@ KMeans <- function(data = NULL,
     data.a <- data[subset, , drop = FALSE]
     result$sizes <- sizes <- Frequency(cluster.a, weights = weights.a)
     sizes <- as.numeric(prop.table(sizes))
+    rownames(centers) <- centers.names
     centers.names.and.desc <- paste0(centers.names, "\n", FormatAsPercent(sizes, 2))
     rownames(centers) <- centers.names.and.desc
     result$centers <- centers
@@ -220,6 +223,7 @@ KMeans <- function(data = NULL,
     result$sample.description <- processed.data$description
     result$n.observations <- n
     result$n.clusters <- n.clusters
+    result$cluster.names <- centers.names
     result$estimation.data <- x
     # Saving parameters
     result$show.labels <- show.labels

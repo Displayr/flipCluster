@@ -28,7 +28,7 @@ KMeans(
 \item{data}{A \code{\link{data.frame}}.}
 
 \item{centers}{Either the number of clusters (e.g., 2), or a set of initial
-cluster centers. Where the number of clusters is specified, or the 
+cluster centers. Where the number of clusters is specified, or the
 algorithm is 'Bagging', a random selection of rows of data is chosen
 as the initial start points.}
 

@@ -32,8 +32,8 @@ predict.KMeans <- function(object, newdata = object$model, use.names = FALSE, ..
     }
     predictions <- apply(distances, 1, which.min)
     predictions[apply(is.na(newdata), 1, all)] <- NA
-    if (use.names && !is.null(rownames(centers)))
-        predictions <- factor(predictions, labels = rownames(centers))
+    if (use.names && !is.null(object$cluster.names))
+        predictions <- factor(predictions, labels = object$cluster.names)
     predictions
 }
 
