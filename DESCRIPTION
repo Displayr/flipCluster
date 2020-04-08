@@ -27,7 +27,7 @@ Remotes:
     Displayr/flipFormat,
     Displayr/flipRegression,
     Displayr/flipStatistics,
-    Displayr/flipTransformations,
-    Displayr/flipU
+    Displayr/flipTransformations@DS-2702,
+    Displayr/flipU@DS-2702
 RoxygenNote: 6.1.1
 Encoding: UTF-8
