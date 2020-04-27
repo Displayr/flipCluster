@@ -86,6 +86,8 @@ KMeans <- function(data = NULL,
         data <- SplitFormQuestions(data, show.labels)
 
     n.total <- nrow(data)
+    if (NCOL(data) < 2)
+        stop("K-Means requires at least 2 variables as input data.")
     if (has.subset)
     {
         subset <- eval(substitute(subset), data, parent.frame())

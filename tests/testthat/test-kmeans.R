@@ -325,3 +325,8 @@ test_that("KMeans with profiling variables", {
         2L), .Dimnames = list(c("Sample size (unweighted)", "Percentage (weighted)"
         ), c("Cluster 1", "Cluster 2"))))
 })
+
+test_that("KMean error on 1 variable",
+{
+    expect_error(KMeans(dat[, 1, drop = FALSE]), "K-Means requires at least 2 variables as input data")
+})
