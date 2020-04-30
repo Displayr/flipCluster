@@ -13,7 +13,7 @@
 #' @export
 predict.KMeans <- function(object, newdata = object$model, use.names = FALSE, ...)
 {
-    centers <- if (class(object) == "KMeans") object$centers else object
+    centers <- if (inherits(object, "KMeans")) object$centers else object
     n.clusters <- nrow(centers)
     if (is.null(n.clusters))
         stop("Not enough data")
