@@ -332,7 +332,7 @@ test_that("KMean error on 1 variable",
 })
 
 test_that("Output contains the right class for extension buttons", {
-    # NOTE: if any of the tests below fail due to class names changing, ALL
+    # NOTE: if the tests below fails due to class names changing, ALL
     #       extension buttons in the wiki that refer to this class name should
     #       be updated with the new class name.
 
