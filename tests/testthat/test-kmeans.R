@@ -330,3 +330,14 @@ test_that("KMean error on 1 variable",
 {
     expect_error(KMeans(dat[, 1, drop = FALSE]), "K-Means requires at least 2 variables as input data")
 })
+
+test_that("Output contains the right class for extension buttons", {
+    # NOTE: if any of the tests below fail due to class names changing, ALL
+    #       extension buttons in the wiki that refer to this class name should
+    #       be updated with the new class name.
+
+    m <- mtcars
+
+    result <- KMeans(m)
+    expect_true(inherits(result, "KMeans"))
+})
