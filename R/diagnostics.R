@@ -6,13 +6,14 @@
 #' @param centers The cluster centers.
 #' @param clusters Cluster membershis by case
 #' @importFrom stats var
+#' @importFrom verbs Sum
 #' @export
 
 CalinskiHarabasz <- function(x, centers, clusters)
 {
   n <- nrow(x)
-  T <- sum(apply(x,2,var)*(n-1))
-  W <- sum((x - centers[clusters,])^2)
+  T <- Sum(apply(x,2,var)*(n-1), remove.missing = FALSE)
+  W <- Sum((x - centers[clusters,])^2, remove.missing = FALSE)
   B <- T - W
   i <- nrow(centers)
   CH <- (B/(i-1))/(W/(n - i))
@@ -38,6 +39,7 @@ AdjustedRand <- function(trial.classification,test.classification)
 #' @param Classification1 One classification.
 #' @param Classification2 Another classification.
 #' @importFrom e1071  classAgreement
+#' @importFrom verbs Sum
 #' @export
 ExternalIndices <- function(k, Classification1, Classification2)
 {
@@ -46,14 +48,14 @@ ExternalIndices <- function(k, Classification1, Classification2)
     for (i in 1:n) {
         Comparison[Classification1[i], Classification2[i]] <- Comparison[Classification1[i], Classification2[i]] + 1
     }
-    Z <- sum(Comparison^2)
+    Z <- Sum(Comparison^2, remove.missing = FALSE)
     # FM
     nDotj <- colSums(Comparison)
     niDot <- rowSums(Comparison)
-    Denominator <- (sum(choose(nDotj, 2))*sum(choose(niDot, 2)))^(1/2)
+    Denominator <- (Sum(choose(nDotj, 2), remove.missing = FALSE)*Sum(choose(niDot, 2), remove.missing = FALSE))^(1/2)
     Numerator <- (1/2)*(Z - n)
     FM <- Numerator/Denominator
     #Jaccard
-    jaccard = (Z - n) / (sum(nDotj^2) + sum(niDot^2) - Z - n)
+    jaccard = (Z - n) / (Sum(nDotj^2, remove.missing = FALSE) + Sum(niDot^2, remove.missing = FALSE) - Z - n)
     list(Fowlkes.Mallows = FM, Jaccard = jaccard, adjusted.rand = AdjustedRand(Classification1, Classification2))
 }
