@@ -352,6 +352,7 @@ print.KMeans <- function(x, ...)
 #' without replacement from amongst the unique cases.
 #' @importFrom stats aggregate complete.cases kmeans
 #' @importFrom flipTransformations AdjustDataToReflectWeights
+#' @importFrom verbs Sum
 #' @export
 BatchKMeans <- function(x, centers, weights, iter.max, n.starts, seed = 1223)
 {
@@ -365,13 +366,13 @@ BatchKMeans <- function(x, centers, weights, iter.max, n.starts, seed = 1223)
         iteration <- 0
         lowest.rss <- Inf
         complete.c <- complete.cases(x)
-        centers <- if (start == 1 & sum(complete.c) > 100)
+        centers <- if (start == 1 & Sum(complete.c, remove.missing = FALSE) > 100)
         {
             complete.x <- x[complete.c, ]
             if (!is.null(weights))
             {
                 complete.weights <- weights[complete.c]
-                complete.weights <- complete.weights / sum(complete.weights) * length(complete.weights)
+                complete.weights <- complete.weights / Sum(complete.weights, remove.missing = FALSE) * length(complete.weights)
                 complete.x <- flipTransformations::AdjustDataToReflectWeights(complete.x, complete.weights, seed = seed, silent = TRUE)
             }
             kmeans(complete.x, centers, iter.max = 10, nstart = 1, algorithm = "Hartigan-Wong")$centers

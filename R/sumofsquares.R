@@ -6,11 +6,12 @@
 #' @param weights The sampling or replication weights.
 #' @details Missing values are ignored.
 #' @importFrom flipStatistics SumOfSquaresByGroup
+#' @importFrom verbs Sum
 #' @export
 ResidualSumOfSquares <- function(x, groups, weights)
 {
     ss <- SumOfSquaresByGroup(x, groups, weights)
-    ss <- sum(ss)
+    ss <- Sum(ss, remove.missing = FALSE)
     if (is.na(ss))
         ss <- Inf
     ss
@@ -21,9 +22,10 @@ ResidualSumOfSquares <- function(x, groups, weights)
 #' @param weights The sampling or replication weights.
 #' @details Missing values are ignored.
 #' @importFrom flipStatistics SumOfSquares
+#' @importFrom verbs Sum
 #' @export
 TotalSumOfSquares <- function(x, weights)
 {
     ss <- SumOfSquares(x, weights)
-    sum(ss)
+    Sum(ss, remove.missing = FALSE)
 }
