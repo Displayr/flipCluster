@@ -39,7 +39,7 @@ AdjustedRand <- function(trial.classification,test.classification)
 #' @param Classification1 One classification.
 #' @param Classification2 Another classification.
 #' @importFrom e1071  classAgreement
-#' @importFrom verbs Sum SumRows SumColumns
+#' @importFrom verbs Sum SumEachRow SumEachColumn
 #' @export
 ExternalIndices <- function(k, Classification1, Classification2)
 {
@@ -50,8 +50,8 @@ ExternalIndices <- function(k, Classification1, Classification2)
     }
     Z <- Sum(Comparison^2, remove.missing = FALSE)
     # FM
-    nDotj <- SumColumns(Comparison, remove.missing = FALSE)
-    niDot <- SumRows(Comparison, remove.missing = FALSE)
+    nDotj <- SumEachColumn(Comparison, remove.missing = FALSE)
+    niDot <- SumEachRow(Comparison, remove.missing = FALSE)
     Denominator <- (Sum(choose(nDotj, 2), remove.missing = FALSE)*Sum(choose(niDot, 2), remove.missing = FALSE))^(1/2)
     Numerator <- (1/2)*(Z - n)
     FM <- Numerator/Denominator
