@@ -23,6 +23,7 @@ Imports:
     stats,
     verbs
 Remotes:
+    Displayr/flipExampleData,
     Displayr/flipAnalysisOfVariance,
     Displayr/flipData,
     Displayr/flipFormat,
