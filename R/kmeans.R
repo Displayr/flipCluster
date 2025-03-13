@@ -50,7 +50,7 @@
 #' @importFrom flipData CleanSubset CleanWeights EstimationData
 #' @importFrom flipFormat Labels ExtractCommonPrefix Names FormatAsPercent
 #' @importFrom flipTransformations CreatingFactorDependentVariableIfNecessary AsNumeric Factor AdjustDataToReflectWeights ProcessQVariables
-#' @importFrom flipU OutcomeName ConvertCommaSeparatedStringToVector
+#' @importFrom flipU OutcomeName ConvertCommaSeparatedStringToVector StopForUserError
 #' @importFrom stats aggregate complete.cases as.formula kmeans
 #' @importFrom flipRegression ConfusionMatrix
 #' @importFrom e1071 bclust
@@ -87,7 +87,7 @@ KMeans <- function(data = NULL,
 
     n.total <- nrow(data)
     if (NCOL(data) < 2)
-        stop("K-Means requires at least 2 variables as input data.")
+        StopForUserError("K-Means requires at least 2 variables as input data.")
     if (has.subset)
     {
         subset <- eval(substitute(subset), data, parent.frame())
@@ -95,7 +95,7 @@ KMeans <- function(data = NULL,
         if (!is.null(subset.description))
             attr(subset, "description") <- subset.description
         if (length(subset) > 1 & length(subset) != nrow(data))
-            stop("'subset' and 'data' are required to have the same number of observations. They do not.")
+            StopForUserError("'subset' and 'data' are required to have the same number of observations. They do not.")
         if (partial)
             subset <- CleanSubset(subset, n.total)
     }
@@ -106,7 +106,7 @@ KMeans <- function(data = NULL,
             attr(weights, "name") <- deparse(substitute(weights))
         weights <- eval(substitute(weights), data, parent.frame())
         if (length(weights) != nrow(data))
-            stop("'weights' and 'data' are required to have the same number of observations. They do not.")
+            StopForUserError("'weights' and 'data' are required to have the same number of observations. They do not.")
         if (partial)
             original.weights <- weights <- CleanWeights(weights)
         if (!algorithm %in% c("Batch", "Bagging"))
@@ -123,15 +123,15 @@ KMeans <- function(data = NULL,
     variable.labels <- Labels(data)
     # Treatment of missing values.
     if (missing == "Use partial data" && algorithm != "Batch" & any(!complete.cases(data)))
-        stop(paste0("'Missing' has been set to 'Use partial data', but the algorithm has been set to '", algorithm, "'",
-                    "you need need to change one of these settings."))
+        StopForUserError(paste0("'Missing' has been set to 'Use partial data', but the algorithm has been set to '", algorithm, "'",
+                                "you need need to change one of these settings."))
     input.formula <- as.formula(paste0("~", paste(names(data), collapse = "+")))
     processed.data <- EstimationData(input.formula, data, subset, weights, missing, seed = seed)
     unfiltered.weights <- processed.data$unfiltered.weights
     x <- processed.data$estimation.data
     n <- nrow(x)
     if (n < ncol(x))
-        stop("The sample size is too small for it to be possible to conduct the analysis.")
+        StopForUserError("The sample size is too small for it to be possible to conduct the analysis.")
     post.missing.data.estimation.sample <- processed.data$post.missing.data.estimation.sample
     .weights <- processed.data$weights
     ####################################################################
@@ -146,7 +146,7 @@ KMeans <- function(data = NULL,
             mod <- try(bclust(x, weights = .weights, centers = n.clusters, verbose = verbose, ...),
                        silent = TRUE)
             if (any("try-error" %in% class(mod)))
-                stop("Bagged clustering algorithm has failed. This may mean that there is too little variation in your data for bagged clustering to be appropriate.")
+                StopForUserError("Bagged clustering algorithm has failed. This may mean that there is too little variation in your data for bagged clustering to be appropriate.")
             mod
         }
         else
