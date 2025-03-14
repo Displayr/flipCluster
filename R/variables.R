@@ -10,18 +10,19 @@
 #' @importFrom stats na.pass predict
 #' @importFrom flipStatistics SumOfSquares
 #' @importFrom flipTransformations AsNumeric
+#' @importFrom flipU StopForUserError
 #' @export
 predict.KMeans <- function(object, newdata = object$model, use.names = FALSE, ...)
 {
     centers <- if (inherits(object, "KMeans")) object$centers else object
     n.clusters <- nrow(centers)
     if (is.null(n.clusters))
-        stop("Not enough data")
+        StopForUserError("Not enough data")
     newdata <- AsNumeric(newdata, object$binary)
     n.variables <- ncol(newdata)
     n <- nrow(newdata)
     if (NCOL(centers) != n.variables)
-        stop("Different number of variables in data to that in centers.")
+        StopForUserError("Different number of variables in data to that in centers.")
     distances <- matrix(NA, n, n.clusters)
     for (c in 1:n.clusters)
     {
@@ -36,5 +37,3 @@ predict.KMeans <- function(object, newdata = object$model, use.names = FALSE, ..
         predictions <- factor(predictions, labels = object$cluster.names)
     predictions
 }
-
-
